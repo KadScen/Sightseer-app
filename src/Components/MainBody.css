@@ -1,0 +1,11 @@
+.mainBodyComponent {
+  width: 70%;
+  margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .mainBodyComponent {
+    width: 95%;
+    margin: 0;
+  }
+}

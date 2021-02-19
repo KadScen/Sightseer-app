@@ -1,0 +1,61 @@
+.cardComponent {
+  margin: 10px auto;
+  width: 95%;
+  background-color: white;
+  height: auto;
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+
+/* .cardComponent .cardBody img {
+  display: block;
+  margin: 10px auto;
+  height: auto;
+  width: auto;
+} */
+
+.cardComponent .cardHeader .userInfos img {
+  border: solid 1px cadetblue;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  margin: 0 10px 0 0;
+}
+
+.cardComponent .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardComponent .cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardComponent .cardFooter .activityInfos {
+  width: 30%;
+}
+
+@media only screen and (max-width: 600px) {
+  .cardComponent {
+    padding: 10px;
+  }
+
+  .cardComponent .cardFooter .activityInfos {
+    width: auto;
+  }
+
+  .cardComponent .cardFooter {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cardComponent .cardBody img {
+    display: block;
+    margin: 10px auto;
+    height: auto;
+    width: 100%;
+  }
+}

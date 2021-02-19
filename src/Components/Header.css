@@ -1,0 +1,17 @@
+.headerComponent {
+    background-color: #35373b;
+    height: auto;
+    width: 100%;
+}
+
+.headerComponent h1 {
+    margin-top: 13px;
+}
+
+.headerComponent a {
+    margin-top: 8px;
+}
+
+.headerComponent #accountIcon {
+    padding: 0 15px;
+}
