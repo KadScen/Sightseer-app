@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { useDispatch } from "react-redux";
 import { signinup } from "../Actions";
 import { isLogged } from "../Actions";
-import "../Config/firebaseConfig";
+import '../Config/firebaseConfig';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
