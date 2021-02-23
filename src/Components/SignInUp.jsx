@@ -33,9 +33,7 @@ function SignInUp() {
             $("#signUpTab").toggleClass('active');
             $("#signUpTab").toggleClass('inactive');
         });
-    });
 
-    useEffect(() => {
         const signup = document.getElementById("signup");
         const login = document.getElementById("login");
         const submitSignup = document.getElementById("submitSignup");

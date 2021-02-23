@@ -6,6 +6,7 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Link } from "react-router-dom";
+import {useHistory} from 'react-router-dom';
 
 import './DropMenu.css';
 
@@ -23,12 +24,18 @@ export default function SimpleMenu() {
     setAnchorEl(null);
   };
 
+  const history = useHistory();
+  const location = {
+      pathname: '/',
+      state: { fromDashboard: true }
+  }
+
   function handleLogout(e) {
     e.preventDefault();
     firebase.auth().signOut().then(() => {
         // Sign-out successful.
         alert("Disconnected");
-        window.location.reload();
+        history.push(location);
       }).catch((error) => {
         // An error happened.
       });
