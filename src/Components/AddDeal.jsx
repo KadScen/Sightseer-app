@@ -3,6 +3,7 @@ import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
+import firebase from 'firebase/app';
 
 import { firebaseApp } from '../Config/firebaseConfig';
 import './AddDeal.css';
@@ -12,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
 }));
+//Init firebase DB
+const db = firebase.firestore();
 
 export default function AddDeal() {
     const options = [
@@ -22,7 +25,7 @@ export default function AddDeal() {
     ];
     const history = useHistory();
     const location = {
-        pathname: '/addDeal',
+        pathname: '/',
         state: { fromDashboard: true }
     }
 
@@ -34,24 +37,40 @@ export default function AddDeal() {
         const dealForm = document.getElementById('dealForm');
         const dealFile = document.getElementById('dealFile');
 
-        submitDeal.addEventListener('click', function(e) {
+        submitDeal.addEventListener('click', (e) => loadEdit(e), false);
+        async function loadEdit(e) {
             const file = dealFile.files[0];
             const storageRef = firebaseApp.storage().ref();
-            if (file != undefined && dealForm.checkValidity()) {
+            if (file !== undefined && dealForm.checkValidity()) {
                 e.preventDefault();
                 const fileRef = storageRef.child(file.name);
-                fileRef.put(file).then(() => {
+                await fileRef.put(file);
+                fileRef.getDownloadURL().then((url) => {
                     console.log("File uploaded");
                     alert('Deal added with image thanks!!');
-                    history.push(location);
+                    db.collection("Deals").doc().set({
+                        imageUrl: url,
+                        location: "to be defined"
+                    })
+                    .then(function() {
+                        console.log("Document successfully written!");
+                        history.push(location);
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
                 });
-            } else if (file == undefined && dealForm.checkValidity()) {
+            } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
                 //Send form in DB here
                 alert('Deal added without image thanks!!');
                 history.push(location);
             }
-        })
+        }
+
+        // submitDeal.addEventListener('click', function(e) {
+
+        // })
 
         dealFile.addEventListener('change', function(e) {
             const filePath = dealFile.value;

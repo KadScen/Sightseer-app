@@ -46,7 +46,7 @@ function SignInUp() {
             let password = signup.password.value;
             firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((cred) => {
-                // Add a new document in collection "cities"
+                // Add a new document in collection
                 db.collection("Users").doc(cred.user.uid).set({
                     name: name,
                     email: email,

@@ -43,14 +43,13 @@ export default function SimpleMenu() {
 
     // Similaire à componentDidMount et componentDidUpdate :
     useEffect(() => {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            setIsLogged(true);
-        } else {
-            setIsLogged(false);
-        };
-    });
-        console.log(isLogged);
+      auth.onAuthStateChanged(user => {
+          if (user) {
+              setIsLogged(true);
+          } else {
+              setIsLogged(false);
+          };
+      });
     });
 
   return (
@@ -71,7 +70,7 @@ export default function SimpleMenu() {
           <div>
               <MenuItem><Link to="/addDeal">Add a deal</Link></MenuItem>
               <MenuItem><Link to="/myAccount">My account</Link></MenuItem>
-              <MenuItem id="logout" onClick={handleClose, handleLogout}>Logout</MenuItem>
+              <MenuItem id="logout" onClick={() => {handleClose(); handleLogout();}}>Logout</MenuItem>
           </div>
           :  
           <div>

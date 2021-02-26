@@ -12,10 +12,8 @@ function Card() {
   dispatch(card());
 
   document.addEventListener("DOMContentLoaded", function () {
-    var elems = document.querySelectorAll(".carousel");
-    var instances = M.Carousel.init(
-      elems
-    );
+    const elems = document.querySelectorAll(".carousel");
+    M.Carousel.init(elems);
   });
 
   return (
@@ -36,19 +34,19 @@ function Card() {
       <div className="cardBody">
         <div className="carousel">
           <a className="carousel-item" href="/">
-            <img src="https://www.vancouvertrails.com/images/hikes/quarry-rock.jpg" />
+            <img alt="" src="https://www.vancouvertrails.com/images/hikes/quarry-rock.jpg" />
           </a>
           <a className="carousel-item" href="/">
-            <img src="https://www.vancouvertrails.com/images/photos/quarry-rock-1.jpg" />
+            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-1.jpg" />
           </a>
           <a className="carousel-item" href="/">
-            <img src="https://www.vancouvertrails.com/images/photos/quarry-rock-2.jpg" />
+            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-2.jpg" />
           </a>
           <a className="carousel-item" href="/">
-            <img src="https://www.vancouvertrails.com/images/photos/quarry-rock-3.jpg" />
+            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-3.jpg" />
           </a>
           <a className="carousel-item" href="/">
-            <img src="https://www.vancouvertrails.com/images/photos/quarry-rock-4.jpg" />
+            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-4.jpg" />
           </a>
         </div>
       </div>
