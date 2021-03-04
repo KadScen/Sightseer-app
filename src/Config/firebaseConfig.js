@@ -7,6 +7,7 @@ import 'firebase/storage';
 const firebaseConfig = {
     apiKey: "AIzaSyBWgtSxVtIuFTCs1jLdHnkzgX0UmXttpNc",
     authDomain: "sightseer-2f4cd.firebaseapp.com",
+    databaseURL: "https://sightseer-2f4cd-default-rtdb.firebaseio.com",
     projectId: "sightseer-2f4cd",
     storageBucket: "sightseer-2f4cd.appspot.com",
     messagingSenderId: "983657816009",

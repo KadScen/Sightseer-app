@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 import firebase from 'firebase/app';
+import {v4 as uuid} from 'uuid';
 
 import { firebaseApp } from '../Config/firebaseConfig';
 import './AddDeal.css';
+import ImageUpload from './ImageUpload';
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -16,20 +19,26 @@ const useStyles = makeStyles((theme) => ({
 //Init firebase DB
 const db = firebase.firestore();
 
+const options = [
+    {value:'hiking', label:'Hiking'}, 
+    {value:'sales', label:'Sales'}, 
+    {value:'traveling', label:'Traveling'}, 
+    {value:'other', label:'Other'}, 
+];
+
 export default function AddDeal() {
-    const options = [
-        {value:'hiking', label:'Hiking'}, 
-        {value:'sales', label:'Sales'}, 
-        {value:'traveling', label:'Traveling'}, 
-        {value:'other', label:'Other'}, 
-    ];
+    const [selectedOption, setSelectedOption] = useState(null);
     const history = useHistory();
     const location = {
         pathname: '/',
         state: { fromDashboard: true }
     }
-
+    // Fecth Redux infos
     const classes = useStyles();
+    // infos contain the image irl
+    const infos = useSelector((state) => state.imageInfos);
+    const id = uuid();
+    const [dealId, setDealId] = useState(id);
 
 
     useEffect(() => {
@@ -48,8 +57,8 @@ export default function AddDeal() {
                 fileRef.getDownloadURL().then((url) => {
                     console.log("File uploaded");
                     alert('Deal added with image thanks!!');
-                    db.collection("Deals").doc().set({
-                        imageUrl: url,
+                    db.collection("Deals").doc(id).set({
+                        imageUrl: infos,
                         location: "to be defined"
                     })
                     .then(function() {
@@ -106,9 +115,10 @@ export default function AddDeal() {
                             <div className="inputField">
                                 <input type="text" id="dealName" className="fadeIn second" name="dealName" placeholder="Deal name*" required />
                                 <input type="text" id="dealLocation" className="fadeIn second" name="dealLocation" placeholder="Deal location*" required />
-                                <Select placeholder="Type of deal...*" options={options} />
+                                <Select defaultvalue={selectedOption} onChange={setSelectedOption} placeholder="Type of deal...*" options={options} />
                                 <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description of the deal" required />
                                 <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" required />
+                                <ImageUpload dealId={dealId}/>
                                 <input type="file" accept="image/*" multiple id="dealFile" className={classes.input} />
                                 <label htmlFor="dealFile">
                                     <Button variant="contained" color="primary" component="span">

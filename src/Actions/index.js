@@ -15,3 +15,10 @@ export const isLogged = () => {
     type: "SIGNEDIN",
   };
 };
+
+export const imageInfos = infos => {
+  return {
+    type: "IMAGEINFOS",
+    payload: infos
+  };
+};
