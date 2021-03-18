@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 import firebase from 'firebase/app';
@@ -43,6 +42,8 @@ export default function AddDeal() {
     // Make a ref of the image to read it's current state and be able to send it to the DB
     const imageRef = useRef(0);
     imageRef.current = imageInfos;
+    const typeOfDeal = useRef(0);
+    typeOfDeal.current = selectedOption;
 
     useEffect(() => {
         const submitDeal = document.getElementById('submitDeal');
@@ -58,8 +59,12 @@ export default function AddDeal() {
                 console.log("File uploaded");
                 alert('Deal added with image thanks!!');
                 db.collection("Deals").doc(id).set({
-                    imageUrl: imageRef.current,
-                    location: "to be defined"
+                    dealName: document.getElementById('dealName').value,
+                    dealLocation: document.getElementById('dealLocation').value,
+                    dealType: typeOfDeal.current.value,
+                    dealDescription: document.getElementById('dealDescription').value,
+                    dealPrice: document.getElementById('dealPrice').value,
+                    imageUrl: imageRef.current
                 })
                 .then(function() {
                     console.log("Document successfully written!");
@@ -89,10 +94,10 @@ export default function AddDeal() {
                         {/* <!-- Signup Form --> */}
                         <form id="dealForm">
                             <div className="inputField">
-                                <input type="text" id="dealName" className="fadeIn second" name="dealName" placeholder="Deal name*" required />
-                                <input type="text" id="dealLocation" className="fadeIn second" name="dealLocation" placeholder="Deal location*" required />
-                                <Select defaultvalue={selectedOption} onChange={setSelectedOption} placeholder="Type of deal...*" options={options} />
-                                <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description of the deal" required />
+                                <input type="text" id="dealName" className="fadeIn second" name="dealName" placeholder="Title*" required />
+                                <input type="text" id="dealLocation" className="fadeIn second" name="dealLocation" placeholder="Location*" required />
+                                <Select defaultvalue={selectedOption} id="dealType" onChange={setSelectedOption} placeholder="Type...*" options={options} />
+                                <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description" required />
                                 <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" required />
                                 <ImageUpload dealId={dealId}/>
                             </div>
