@@ -6,39 +6,54 @@ import { imageInfos } from "../Actions";
 
 export default function ImageUpload(props) {
     const dispatch = useDispatch();
-    console.log('Id of the deal is: ' + props.dealId);
-
     const [imageUrl, setImageUrl] = useState([]);
+    const dealFile = document.getElementById('dealFile');
+
     const readImages = async (e) =>{
-        const file = e.target.files[0];
-        const id = uuid();
-        const storageRef = firebase.storage().ref('images').child(props.dealId).child(id);
-        const imageRef = firebase.database().ref('images').child('daily').child(id);
-        await storageRef.put(file);
-        storageRef.getDownloadURL().then((url) => {
-            imageRef.set(url);
-            dispatch(imageInfos(url));
-            const newState = [...imageUrl, { id, url }];
-            setImageUrl(newState);
-        });
+        const filePath = dealFile.value;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type');
+            dealFile.value = '';
+            document.getElementById('imagePreview').innerHTML = 'No image added';
+            return false;
+        } else {
+            const file = e.target.files[0];
+            const id = uuid();
+            const storageRef = firebase.storage().ref('dealsImages').child(props.dealId).child(id);
+            const imageRef = firebase.database().ref('dealsImages').child(props.dealId).child(id);
+            await storageRef.put(file);
+            storageRef.getDownloadURL().then((url) => {
+                imageRef.set(url);
+                const newState = [...imageUrl, { id, url }];
+                setImageUrl(newState);
+            });
+        }
     };
 
     const getImageUrl = () => {
-        const imageUrls = imageUrl;
-        const urls = [];
-        for (let id in imageUrls) {
-            urls.push({ id, url: imageUrl[id] });
-        }
-        const newState = [...imageUrl, ...urls];
-        setImageUrl(newState);
+        const imageRef = firebase.database().ref('dealsImages').child(props.dealId);
+        imageRef.on('value', (snapshot) => {
+          const imageUrls = snapshot.val();
+          const urls = [];
+          for (let id in imageUrls) {
+            urls.push({ id, url: imageUrls[id] });
+          }
+          const newState = [...imageUrl, ...urls];
+          setImageUrl(newState);
+          dispatch(imageInfos(newState));
+        });
     };
 
     const deleteImage = (id) => {
-        const storageRef = firebase.storage().ref('images').child(props.dealId).child(id);
-        const imageRef = firebase.database().ref('images').child('daily').child(id);
+        const storageRef = firebase.storage().ref('dealsImages').child(props.dealId).child(id);
+        const imageRef = firebase.database().ref('dealsImages').child(props.dealId).child(id);
         storageRef.delete().then(() => {
             imageRef.remove();
         });
+        setImageUrl(imageUrl.filter(({ id }) => id === id));
+        console.log(imageUrl.id);
     };
 
     useEffect(() => {
@@ -48,7 +63,7 @@ export default function ImageUpload(props) {
     return (
         <div>
             <p>Image Upload Complonent here</p>
-            <input type='file' accept='image/*' onChange={readImages}/>
+            <input type='file' accept='image/*' id="dealFile" onChange={readImages}/>
             {imageUrl 
                 ? imageUrl.map(({id,url}) => {
                     return (

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,10 +36,13 @@ export default function AddDeal() {
     // Fecth Redux infos
     const classes = useStyles();
     // infos contain the image irl
-    const infos = useSelector((state) => state.imageInfos);
     const id = uuid();
     const [dealId, setDealId] = useState(id);
-
+    // Take image infos from Redux's ImageUpload.jsx
+    const imageInfos = useSelector((state) => state.imageInfos);
+    // Make a ref of the image to read it's current state and be able to send it to the DB
+    const imageRef = useRef(0);
+    imageRef.current = imageInfos;
 
     useEffect(() => {
         const submitDeal = document.getElementById('submitDeal');
@@ -47,27 +50,23 @@ export default function AddDeal() {
         const dealFile = document.getElementById('dealFile');
 
         submitDeal.addEventListener('click', (e) => loadEdit(e), false);
-        async function loadEdit(e) {
+        function loadEdit(e) {
             const file = dealFile.files[0];
             const storageRef = firebaseApp.storage().ref();
             if (file !== undefined && dealForm.checkValidity()) {
                 e.preventDefault();
-                const fileRef = storageRef.child(file.name);
-                await fileRef.put(file);
-                fileRef.getDownloadURL().then((url) => {
-                    console.log("File uploaded");
-                    alert('Deal added with image thanks!!');
-                    db.collection("Deals").doc(id).set({
-                        imageUrl: infos,
-                        location: "to be defined"
-                    })
-                    .then(function() {
-                        console.log("Document successfully written!");
-                        history.push(location);
-                    })
-                    .catch(function(error) {
-                        console.error("Error writing document: ", error);
-                    });
+                console.log("File uploaded");
+                alert('Deal added with image thanks!!');
+                db.collection("Deals").doc(id).set({
+                    imageUrl: imageRef.current,
+                    location: "to be defined"
+                })
+                .then(function() {
+                    console.log("Document successfully written!");
+                    history.push(location);
+                })
+                .catch(function(error) {
+                    console.error("Error writing document: ", error);
                 });
             } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
@@ -75,31 +74,8 @@ export default function AddDeal() {
                 alert('Deal added without image thanks!!');
                 history.push(location);
             }
+            e.stopImmediatePropagation();
         }
-
-        // submitDeal.addEventListener('click', function(e) {
-
-        // })
-
-        dealFile.addEventListener('change', function(e) {
-            const filePath = dealFile.value;
-            const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-    
-            if (!allowedExtensions.exec(filePath)) {
-                alert('Invalid file type');
-                dealFile.value = '';
-                document.getElementById('imagePreview').innerHTML = 'No image added';
-                return false;
-            } else {
-                if (dealFile.files && dealFile.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('imagePreview').innerHTML = 'Image ready to be uploaded';
-                    };
-                    reader.readAsDataURL(dealFile.files[0]);
-                }
-            }
-        })
     })
 
     return (
@@ -119,14 +95,6 @@ export default function AddDeal() {
                                 <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description of the deal" required />
                                 <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" required />
                                 <ImageUpload dealId={dealId}/>
-                                <input type="file" accept="image/*" multiple id="dealFile" className={classes.input} />
-                                <label htmlFor="dealFile">
-                                    <Button variant="contained" color="primary" component="span">
-                                        Upload image(s)
-                                    </Button>
-                                </label>
-                                <div id="imagePreview"><span>No image added</span></div>
-
                             </div>
                             <input type="submit" id="submitDeal" className="fadeIn fourth" value="Share your deal!!" />
                         </form>
