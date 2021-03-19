@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import firebase from 'firebase';
 import {v4 as uuid} from 'uuid';
 import { useDispatch } from "react-redux";
 import { imageInfos } from "../Actions";
+import './ImageUpload.css';
 
 export default function ImageUpload(props) {
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState([]);
+    const nbImages = useRef(0);
+    nbImages.current = imageUrl;
     const dealFile = document.getElementById('dealFile');
 
     const readImages = async (e) =>{
         const filePath = dealFile.value;
         const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 
-        if (!allowedExtensions.exec(filePath)) {
+        if ( !allowedExtensions.exec(filePath) ) {
             alert('Invalid file type');
             dealFile.value = '';
             document.getElementById('imagePreview').innerHTML = 'No image added';
             return false;
+        } else if ( nbImages.current.length >= 5 ) {
+            alert('Sorry you can send up to 5 images max')
         } else {
             const file = e.target.files[0];
             const id = uuid();
@@ -28,7 +33,8 @@ export default function ImageUpload(props) {
                 imageRef.set(url);
                 const newState = [...imageUrl, { id, url }];
                 setImageUrl(newState);
-            });
+                console.log(nbImages.current);
+            });   
         }
     };
 
@@ -61,7 +67,7 @@ export default function ImageUpload(props) {
     }, []);
 
     return (
-        <div>
+        <div className="imageUploadComponent">
             <p>Image Upload Complonent here</p>
             <input type='file' accept='image/*' id="dealFile" onChange={readImages}/>
             {imageUrl 

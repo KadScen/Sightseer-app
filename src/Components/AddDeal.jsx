@@ -1,20 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
-import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 import firebase from 'firebase/app';
 import {v4 as uuid} from 'uuid';
 
-import { firebaseApp } from '../Config/firebaseConfig';
 import './AddDeal.css';
 import ImageUpload from './ImageUpload';
 import { useSelector } from "react-redux";
 
-const useStyles = makeStyles((theme) => ({
-    input: {
-      display: 'none',
-    },
-}));
 //Init firebase DB
 const db = firebase.firestore();
 
@@ -32,8 +25,6 @@ export default function AddDeal() {
         pathname: '/',
         state: { fromDashboard: true }
     }
-    // Fecth Redux infos
-    const classes = useStyles();
     // infos contain the image irl
     const id = uuid();
     const [dealId, setDealId] = useState(id);
@@ -53,7 +44,6 @@ export default function AddDeal() {
         submitDeal.addEventListener('click', (e) => loadEdit(e), false);
         function loadEdit(e) {
             const file = dealFile.files[0];
-            const storageRef = firebaseApp.storage().ref();
             if (file !== undefined && dealForm.checkValidity()) {
                 e.preventDefault();
                 console.log("File uploaded");
@@ -75,9 +65,21 @@ export default function AddDeal() {
                 });
             } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
-                //Send form in DB here
-                alert('Deal added without image thanks!!');
-                history.push(location);
+                db.collection("Deals").doc(id).set({
+                    dealName: document.getElementById('dealName').value,
+                    dealLocation: document.getElementById('dealLocation').value,
+                    dealType: typeOfDeal.current.value,
+                    dealDescription: document.getElementById('dealDescription').value,
+                    dealPrice: document.getElementById('dealPrice').value,
+                    imageUrl: 'false'
+                })
+                .then(function() {
+                    alert('Deal added without image thanks!!');
+                    history.push(location);
+                })
+                .catch(function(error) {
+                    console.error("Error writing document: ", error);
+                });
             }
             e.stopImmediatePropagation();
         }
@@ -98,7 +100,7 @@ export default function AddDeal() {
                                 <input type="text" id="dealLocation" className="fadeIn second" name="dealLocation" placeholder="Location*" required />
                                 <Select defaultvalue={selectedOption} id="dealType" onChange={setSelectedOption} placeholder="Type...*" options={options} />
                                 <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description" required />
-                                <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" required />
+                                <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" min="0" max="99999" required />
                                 <ImageUpload dealId={dealId}/>
                             </div>
                             <input type="submit" id="submitDeal" className="fadeIn fourth" value="Share your deal!!" />
