@@ -30,8 +30,7 @@ export default function SimpleMenu() {
       state: { fromDashboard: true }
   }
 
-  function handleLogout(e) {
-    e.preventDefault();
+  function handleLogout() {
     firebase.auth().signOut().then(() => {
         // Sign-out successful.
         alert("Disconnected");

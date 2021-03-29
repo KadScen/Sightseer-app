@@ -19,10 +19,9 @@ export default function ImageUpload(props) {
         if ( !allowedExtensions.exec(filePath) ) {
             alert('Invalid file type');
             dealFile.value = '';
-            document.getElementById('imagePreview').innerHTML = 'No image added';
             return false;
         } else if ( nbImages.current.length >= 5 ) {
-            alert('Sorry you can send up to 5 images max')
+            alert('Sorry you can send up to 5 images max');
         } else {
             const file = e.target.files[0];
             const id = uuid();
