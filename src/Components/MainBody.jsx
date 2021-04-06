@@ -8,14 +8,15 @@ class MainBody extends Component {
     state = { 
         deal: '',
         dealImageUrl: [],
-        cards: []
+        cards: [],
+        cardReversed: []
     }
 
     componentDidMount() {
         //Init firebase DB
         const db = firebase.firestore();
 
-        db.collection("Deals").get().then((querySnapshot) => {
+        db.collection("Deals").orderBy("dateDealPosted", "desc").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 console.log(doc.id, " => ", doc.data());
@@ -26,11 +27,16 @@ class MainBody extends Component {
                 });
             });
         }); 
-        
     }
 
     render() { 
-        console.log(this.state.deal);
+        // var mySet = this.state.cards;
+        // for (let myNum of Array.from(mySet).reverse()) {
+        // console.log(myNum.dealName);
+        // this.setState({
+        //     cardReversed: myNum
+        // });
+        // }
         return (
             <div className="mainBodyComponent">
                 {this.state.cards.map((item, index)=>{

@@ -54,7 +54,8 @@ export default function AddDeal() {
                     dealType: typeOfDeal.current.value,
                     dealDescription: document.getElementById('dealDescription').value,
                     dealPrice: document.getElementById('dealPrice').value,
-                    imageUrl: imageRef.current
+                    imageUrl: imageRef.current,
+                    dateDealPosted: firebase.firestore.Timestamp.now()
                 })
                 .then(function() {
                     console.log("Document successfully written!");

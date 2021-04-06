@@ -22,8 +22,8 @@ function DealCards(props) {
             <div className="cardFooter">
                 <div className="activityInfos">
                     <p>{props.dealData.dealName}</p>
-                    <p>{props.dealData.dealLocation}</p>
-                    <p>{props.dealData.dealPrice}</p>
+                    <p>Location: {props.dealData.dealLocation}</p>
+                    <p>Price: ${props.dealData.dealPrice}</p>
                 </div>
                 <a href="/card" className="myButton">Go to deal</a>
             </div>
