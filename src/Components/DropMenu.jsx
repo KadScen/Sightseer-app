@@ -14,7 +14,7 @@ export default function SimpleMenu() {
   const auth = firebase.auth();
   // Déclare une nouvelle variable d'état, "isLogged". Comme {this.state}
   const [isLogged, setIsLogged] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

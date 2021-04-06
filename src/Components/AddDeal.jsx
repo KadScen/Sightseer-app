@@ -3,6 +3,7 @@ import Select from 'react-select';
 import {useHistory} from 'react-router-dom';
 import firebase from 'firebase/app';
 import {v4 as uuid} from 'uuid';
+import 'firebase/auth';
 
 import './AddDeal.css';
 import ImageUpload from './ImageUpload';
@@ -10,6 +11,7 @@ import { useSelector } from "react-redux";
 
 //Init firebase DB
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 const options = [
     {value:'hiking', label:'Hiking'}, 
@@ -48,21 +50,24 @@ export default function AddDeal() {
                 e.preventDefault();
                 console.log("File uploaded");
                 alert('Deal added with image thanks!!');
-                db.collection("Deals").doc(id).set({
-                    dealName: document.getElementById('dealName').value,
-                    dealLocation: document.getElementById('dealLocation').value,
-                    dealType: typeOfDeal.current.value,
-                    dealDescription: document.getElementById('dealDescription').value,
-                    dealPrice: document.getElementById('dealPrice').value,
-                    imageUrl: imageRef.current,
-                    dateDealPosted: firebase.firestore.Timestamp.now()
-                })
-                .then(function() {
-                    console.log("Document successfully written!");
-                    history.push(location);
-                })
-                .catch(function(error) {
-                    console.error("Error writing document: ", error);
+                auth.onAuthStateChanged(user => {
+                    db.collection("Deals").doc(id).set({
+                        dealUserCreator: user.uid,
+                        dealName: document.getElementById('dealName').value,
+                        dealLocation: document.getElementById('dealLocation').value,
+                        dealType: typeOfDeal.current.value,
+                        dealDescription: document.getElementById('dealDescription').value,
+                        dealPrice: document.getElementById('dealPrice').value,
+                        imageUrl: imageRef.current,
+                        dateDealPosted: firebase.firestore.Timestamp.now()
+                    })
+                    .then(function() {
+                        console.log("Document successfully written!");
+                        history.push(location);
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
                 });
             } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
