@@ -3,6 +3,7 @@ import { MdSwapVert } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { card } from "../Actions";
 import M from "materialize-css";
+import {Link, useLocation} from "react-router-dom";
 
 import "./Card.css";
 
@@ -15,6 +16,9 @@ function Card() {
     const elems = document.querySelectorAll(".carousel");
     M.Carousel.init(elems);
   });
+
+  let location = useLocation();
+console.log(location);
 
   return (
     <div className="cardComponent">
@@ -52,17 +56,12 @@ function Card() {
       </div>
       <div className="cardFooter">
         <div className="activityInfos">
-          <p>Activity name</p>
-          <p>Activity location</p>
-          <p>Activity price</p>
+          <p>{location.state.dealName}</p>
+          <p>Location: {location.state.dealLocation}</p>
+          <p>Price: ${location.state.dealPrice}</p>
         </div>
         <div>
-          <p>
-            Description : Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Non numquam odio, ipsa doloribus provident quae, delectus hic
-            iure voluptates, deleniti ullam quaerat laudantium fugiat minima
-            dolorem repellat consequuntur corrupti voluptatibus.
-          </p>
+          <p>{location.state.dealDescription}</p>
         </div>
       </div>
     </div>
