@@ -2,8 +2,8 @@ import React from "react";
 import { MdSwapVert } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { card } from "../Actions";
-import M from "materialize-css";
 import {Link, useLocation} from "react-router-dom";
+import Carousel from './Carousel';
 
 import "./Card.css";
 
@@ -12,13 +12,8 @@ function Card() {
   const dispatch = useDispatch();
   dispatch(card());
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const elems = document.querySelectorAll(".carousel");
-    M.Carousel.init(elems);
-  });
-
   let location = useLocation();
-console.log(location);
+  console.log(location);
 
   return (
     <div className="cardComponent">
@@ -36,23 +31,7 @@ console.log(location);
         </div>
       </div>
       <div className="cardBody">
-        <div className="carousel">
-          <a className="carousel-item" href="/">
-            <img alt="" src="https://www.vancouvertrails.com/images/hikes/quarry-rock.jpg" />
-          </a>
-          <a className="carousel-item" href="/">
-            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-1.jpg" />
-          </a>
-          <a className="carousel-item" href="/">
-            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-2.jpg" />
-          </a>
-          <a className="carousel-item" href="/">
-            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-3.jpg" />
-          </a>
-          <a className="carousel-item" href="/">
-            <img alt="" src="https://www.vancouvertrails.com/images/photos/quarry-rock-4.jpg" />
-          </a>
-        </div>
+        <Carousel imageData={location}/>
       </div>
       <div className="cardFooter">
         <div className="activityInfos">

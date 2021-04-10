@@ -15,6 +15,11 @@ class Gallery extends React.Component {
   }
 
   render() {
+    console.log(this.props.imageData.state.imageUrl)
+    let imageUrl = this.props.imageData.state.imageUrl.map((item, index)=>{
+      return <div className="yours-custom-class"><img src={item.url} /></div>
+    })
+
     const responsive = {
       0: {
         items: 1
@@ -42,11 +47,7 @@ class Gallery extends React.Component {
         onSlideChange={this.onSlideChange}
         onSlideChanged={this.onSlideChanged}
       >
-        <div className="yours-custom-class"><img src="https://www.vancouvertrails.com/images/hikes/quarry-rock.jpg" /></div>
-        <div className="yours-custom-class"><img src="https://www.vancouvertrails.com/images/photos/quarry-rock-1.jpg" /></div>
-        <div className="yours-custom-class"><img src="https://www.vancouvertrails.com/images/photos/quarry-rock-2.jpg" /></div>
-        <div className="yours-custom-class"><img src="https://www.vancouvertrails.com/images/photos/quarry-rock-3.jpg" /></div>
-        <div className="yours-custom-class"><img src="https://www.vancouvertrails.com/images/photos/quarry-rock-4.jpg" /></div>
+        {imageUrl}
       </AliceCarousel>
     );
   }

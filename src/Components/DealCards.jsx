@@ -35,15 +35,13 @@ function DealCards(props) {
                 </div>
             </div>
             <div className="cardBody">
+                <p className="dealTitle">{props.dealData.dealName}</p>
+                <p className="dealPrice">${props.dealData.dealPrice}</p>
+                <p>Location: {props.dealData.dealLocation}</p>
                 <img src={props.dealImageUrl} alt="dealPicture"/>
             </div>
             <div className="cardFooter">
-                <div className="activityInfos">
-                    <p>{props.dealData.dealName}</p>
-                    <p>Location: {props.dealData.dealLocation}</p>s
-                    <p>Price: ${props.dealData.dealPrice}</p>
-                </div>
-                <a href="/card" className="myButton"><Link to={{ pathname: "/card", state: props.dealData}}>Go to the deal</Link></a>
+                <a href="/card" className="myButton"><Link className="buttonText" to={{ pathname: "/card", state: props.dealData}}>See the deal</Link></a>
             </div>
         </div>
     );

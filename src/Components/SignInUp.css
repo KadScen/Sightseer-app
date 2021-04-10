@@ -10,7 +10,7 @@
     font-family: "Poppins", sans-serif;
   }
   
-  a {
+  .signInUpComponent a {
     color: #92badd;
     display:inline-block;
     text-decoration: none;
