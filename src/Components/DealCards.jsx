@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { MdSwapVert } from 'react-icons/md';
 import firebase from 'firebase/app';
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ function DealCards(props) {
     const [userData, setUserData] = useState(null);
     const userDataInfos = useRef(0);
     userDataInfos.current = userData;
+
+    useEffect(() => {
         console.log("user: " + props.dealData.dealUserCreator)
         db.collection("Users").doc(props.dealData.dealUserCreator).get().then((doc) => {
             if (doc.exists) {
@@ -21,6 +23,7 @@ function DealCards(props) {
         }).catch((error) => {
             console.log("Error getting document:", error);
         });
+    })
 
     return (
         <div className="dealCardsComponent">
@@ -41,7 +44,7 @@ function DealCards(props) {
                 <img src={props.dealImageUrl} alt="dealPicture"/>
             </div>
             <div className="cardFooter">
-                <a href="/card" className="myButton"><Link className="buttonText" to={{ pathname: "/card", state: props.dealData}}>See the deal</Link></a>
+                <a href="/card" className="myButton"><Link className="buttonText" to={{ pathname: "/card", state: props.dealData, dealCreator: userDataInfos.current}}>See the deal</Link></a>
             </div>
         </div>
     );

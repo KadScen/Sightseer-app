@@ -1,6 +1,7 @@
 import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import "react-alice-carousel/lib/alice-carousel.css";
+import "./Carousel.css";
 
 class Gallery extends React.Component {
 
@@ -21,15 +22,9 @@ class Gallery extends React.Component {
     })
 
     const responsive = {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 2
-      },
-      1024: {
-        items: 3
-      }
+      0: { items: 1 },
+      568: { items: 2 },
+      1024: { items: 3 },
     };
 
     return (
