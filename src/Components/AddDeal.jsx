@@ -71,20 +71,24 @@ export default function AddDeal() {
                 });
             } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
-                db.collection("Deals").doc(id).set({
-                    dealName: document.getElementById('dealName').value,
-                    dealLocation: document.getElementById('dealLocation').value,
-                    dealType: typeOfDeal.current.value,
-                    dealDescription: document.getElementById('dealDescription').value,
-                    dealPrice: document.getElementById('dealPrice').value,
-                    imageUrl: 'false'
-                })
-                .then(function() {
-                    alert('Deal added without image thanks!!');
-                    history.push(location);
-                })
-                .catch(function(error) {
-                    console.error("Error writing document: ", error);
+                auth.onAuthStateChanged(user => {
+                    db.collection("Deals").doc(id).set({
+                        dealUserCreator: user.uid,
+                        dealName: document.getElementById('dealName').value,
+                        dealLocation: document.getElementById('dealLocation').value,
+                        dealType: typeOfDeal.current.value,
+                        dealDescription: document.getElementById('dealDescription').value,
+                        dealPrice: document.getElementById('dealPrice').value,
+                        imageUrl: 'false',
+                        dateDealPosted: firebase.firestore.Timestamp.now()
+                    })
+                    .then(function() {
+                        alert('Deal added without image thanks!!');
+                        history.push(location);
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
                 });
             }
             e.stopImmediatePropagation();
