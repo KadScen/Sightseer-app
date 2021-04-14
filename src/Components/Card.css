@@ -43,6 +43,28 @@
   width: 30%;
 }
 
+.cardComponent .cardFooter .activityInfos .dealTitle {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.cardComponent .cardFooter .activityInfos .dealPrice {
+  font-weight: 700;
+  color: red;
+}
+
+.cardComponent .cardFooter .dealDescription {
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  padding: 0 10px;
+  border: 1px solid grey;
+}
+
+.cardComponent .cardFooter .dealDescription .descriptionSubtitle {
+  font-weight: 700;
+  font-size: 15px;
+}
+
 @media only screen and (max-width: 600px) {
   .cardComponent {
     padding: 10px;

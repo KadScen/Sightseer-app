@@ -63,11 +63,12 @@ function Card() {
       </div>
       <div className="cardFooter">
         <div className="activityInfos">
-          <p>{location.state.dealName}</p>
+          <p className="dealTitle">{location.state.dealName}</p>
+          <p className="dealPrice">Price: ${location.state.dealPrice}</p>
           <p>Location: {location.state.dealLocation}</p>
-          <p>Price: ${location.state.dealPrice}</p>
         </div>
-        <div>
+        <div className="dealDescription">
+          <p className="descriptionSubtitle">Desctiption of the deal: <br/></p>
           <p>{location.state.dealDescription}</p>
         </div>
       </div>
