@@ -28,6 +28,11 @@
   align-items: center;
 }
 
+.cardComponent .cardBody .noImage p {
+  text-align: center;
+  text-decoration: underline;
+}
+
 .cardComponent .cardFooter {
   display: flex;
   justify-content: space-between;

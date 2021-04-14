@@ -41,7 +41,13 @@ function DealCards(props) {
                 <p className="dealTitle">{props.dealData.dealName}</p>
                 <p className="dealPrice">${props.dealData.dealPrice}</p>
                 <p>Location: {props.dealData.dealLocation}</p>
-                <img src={props.dealImageUrl} alt="dealPicture"/>
+                {props.dealImageUrl ?
+                    <img src={props.dealImageUrl} alt="dealPicture"/>
+                    :  
+                    <div>
+                        <p>*No image added*</p>
+                    </div>
+                }
             </div>
             <div className="cardFooter">
                 <a href="/card" className="myButton"><Link className="buttonText" to={{ pathname: "/card", state: props.dealData, dealCreator: userDataInfos.current}}>See the deal</Link></a>

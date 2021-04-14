@@ -52,8 +52,8 @@ function Card() {
       </div>
       <div className="cardBody">
         {location.state.imageUrl == 'false' ?
-          <div>
-            <p>There is no image added to this deal :/</p>
+          <div className="noImage">
+            <p>There is no image added to this deal...</p>
           </div>
           :  
           <div>
