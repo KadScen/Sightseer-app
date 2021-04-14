@@ -15,7 +15,7 @@ function Card() {
   dispatch(card());
 
   let location = useLocation();
-  console.log('location is: ' + location);
+  console.log('location is: ' + location.state);
 
   // useEffect(() => {
   //   //Get post user infos
@@ -51,7 +51,15 @@ function Card() {
         </div>
       </div>
       <div className="cardBody">
-        <Carousel imageData={location}/>
+        {location.state.imageUrl == 'false' ?
+          <div>
+            <p>There is no image added to this deal :/</p>
+          </div>
+          :  
+          <div>
+            <Carousel imageData={location}/>
+          </div>
+        }
       </div>
       <div className="cardFooter">
         <div className="activityInfos">
