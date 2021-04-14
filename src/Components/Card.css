@@ -58,6 +58,7 @@
   border-radius: 5px;
   padding: 0 10px;
   border: 1px solid grey;
+  width: 70%;
 }
 
 .cardComponent .cardFooter .dealDescription .descriptionSubtitle {
@@ -83,6 +84,10 @@
     display: block;
     margin: 10px auto;
     height: auto;
+    width: 100%;
+  }
+
+  .cardComponent .cardFooter .dealDescription {
     width: 100%;
   }
 }
