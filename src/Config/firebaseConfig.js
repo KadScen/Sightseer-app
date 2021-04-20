@@ -19,3 +19,5 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const perf = firebase.performance();
+//Init firebase DB
+export const db = firebase.firestore();
