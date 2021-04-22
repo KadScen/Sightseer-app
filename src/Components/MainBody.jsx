@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase/app';
 import {db} from "../Config/firebaseConfig";
 
 import DealCards from "./DealCards";
@@ -61,7 +60,7 @@ class MainBody extends Component {
                 {this.state.cards.map((item, index)=>{
                     return <DealCards dealData={item} dealImageUrl={this.state.dealImageUrl[index]}/>
                 })}
-                <button onClick={this.fetchMore}>More</button>
+                <button className="loadMore" onClick={this.fetchMore}>Load more...</button>
             </div>
         );
     }
