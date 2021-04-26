@@ -16,9 +16,8 @@ class Gallery extends React.Component {
   }
 
   render() {
-    console.log(this.props.imageData.state.imageUrl)
     let imageUrl = this.props.imageData.state.imageUrl.map((item, index)=>{
-      return <div className="yours-custom-class"><img src={item.url} /></div>
+      return <div className="yours-custom-class" key={index}><img src={item.url}/></div>
     })
 
     const responsive = {

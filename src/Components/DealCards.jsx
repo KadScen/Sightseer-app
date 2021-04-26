@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { MdSwapVert } from 'react-icons/md';
 import firebase from 'firebase/app';
 import { Link } from "react-router-dom";
+import AddLike from "./AddLike";
 
 import "./DealCards.css";
 
@@ -12,7 +13,6 @@ function DealCards(props) {
     userDataInfos.current = userData;
 
     useEffect(() => {
-        console.log("user: " + props.dealData.dealUserCreator)
         db.collection("Users").doc(props.dealData.dealUserCreator).get().then((doc) => {
             if (doc.exists) {
                 setUserData(doc.data().name);
@@ -33,7 +33,7 @@ function DealCards(props) {
                     <p>By: {userDataInfos.current}</p>
                 </div>
                 <div className="interestInfos">
-                    <p>Interest level</p>
+                    <AddLike dealData={props.dealData}/>
                     <MdSwapVert size="30px"/>
                 </div>
             </div>
@@ -50,7 +50,7 @@ function DealCards(props) {
                 }
             </div>
             <div className="cardFooter">
-                <a href="/card" className="myButton"><Link className="buttonText" to={{ pathname: "/card", state: props.dealData, dealCreator: userDataInfos.current}}>See the deal</Link></a>
+                <Link className="buttonText myButton" to={{ pathname: "/card", state: props.dealData, dealCreator: userDataInfos.current}}>See the deal</Link>
             </div>
         </div>
     );

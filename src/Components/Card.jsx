@@ -9,31 +9,10 @@ import firebase from 'firebase/app';
 import "./Card.css";
 
 function Card() {
-  // const [dealCreatorInfo, setdealCreatorInfo] = useState([]);
   //Call and run signinup from Redux Actions
   const dispatch = useDispatch();
   dispatch(card());
-
   let location = useLocation();
-  console.log('location is: ' + location.state);
-
-  // useEffect(() => {
-  //   //Get post user infos
-  //   const db = firebase.firestore();
-  //   const docRef = db.collection("Users").doc(location.state.dealUserCreator);
-
-  //   docRef.get().then((doc) => {
-  //       if (doc.exists) {
-  //           console.log("Document data:", doc.data());
-  //           setdealCreatorInfo(doc.data());
-  //       } else {
-  //           // doc.data() will be undefined in this case
-  //           console.log("No such document!");
-  //       }
-  //   }).catch((error) => {
-  //       console.log("Error getting document:", error);
-  //   });
-  // })
 
   return (
     <div className="cardComponent">

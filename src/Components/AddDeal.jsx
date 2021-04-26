@@ -59,7 +59,9 @@ export default function AddDeal() {
                         dealDescription: document.getElementById('dealDescription').value,
                         dealPrice: document.getElementById('dealPrice').value,
                         imageUrl: imageRef.current,
-                        dateDealPosted: firebase.firestore.Timestamp.now()
+                        dateDealPosted: firebase.firestore.Timestamp.now(),
+                        interestLevel: 0,
+                        dealId: id
                     })
                     .then(function() {
                         console.log("Document successfully written!");
@@ -80,7 +82,9 @@ export default function AddDeal() {
                         dealDescription: document.getElementById('dealDescription').value,
                         dealPrice: document.getElementById('dealPrice').value,
                         imageUrl: 'false',
-                        dateDealPosted: firebase.firestore.Timestamp.now()
+                        dateDealPosted: firebase.firestore.Timestamp.now(),
+                        interestLevel: 0,
+                        dealId: id
                     })
                     .then(function() {
                         alert('Deal added without image thanks!!');

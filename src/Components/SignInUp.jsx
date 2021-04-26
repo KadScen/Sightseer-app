@@ -73,7 +73,6 @@ function SignInUp() {
             e.preventDefault();
             let email = login.email.value;
             let password = login.password.value;
-            console.log(`email is: ${email} and password is: ${password}`);
             auth.signInWithEmailAndPassword(email, password)
             .then((user) => {
                 dispatch(isLogged());
