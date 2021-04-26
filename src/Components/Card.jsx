@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { MdSwapVert } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { card } from "../Actions";
 import {useLocation} from "react-router-dom";
 import Carousel from './Carousel';
-import firebase from 'firebase/app';
 
 import "./Card.css";
 
@@ -30,7 +29,7 @@ function Card() {
         </div>
       </div>
       <div className="cardBody">
-        {location.state.imageUrl == 'false' ?
+        {location.state.imageUrl === 'false' ?
           <div className="noImage">
             <p>There is no image added to this deal...</p>
           </div>
