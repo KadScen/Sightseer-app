@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { card } from "../Actions";
 import {useLocation} from "react-router-dom";
 import Carousel from './Carousel';
+import AddLike from './AddLike';
 
 import "./Card.css";
 
@@ -24,7 +25,7 @@ function Card() {
           <p>{location.dealCreator}</p>
         </div>
         <div className="interestInfos">
-          <p>Interest level</p>
+          <AddLike dealData={location.state}/>
           <MdSwapVert size="30px" />
         </div>
       </div>

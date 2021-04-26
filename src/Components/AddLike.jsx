@@ -7,9 +7,6 @@ import 'firebase/auth';
 
 function AddLike(props) {
     const auth = firebase.auth();
-    console.log("dealID: " + JSON.stringify(props.dealData.dealId));
-    const [likeColor, setLikeColor] = useState('');
-    const [disLikeColor, setDisLikeColor] = useState('');
     const [likeData, setLikeData] = useState(props.dealData.interestLevel);
     const nbOfLike = useRef(0);
     nbOfLike.current = likeData;
@@ -28,25 +25,20 @@ function AddLike(props) {
                                 usersLiked: firebase.firestore.FieldValue.arrayUnion(user.uid),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayRemove(haveDisLiked)
                             });
-                            setLikeColor('primary');
-                            setDisLikeColor('');
                         } else if (haveLiked) {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(-1),
                                 usersLiked: firebase.firestore.FieldValue.arrayRemove(haveLiked)
                             });
-                            setLikeColor('');
                         } else {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(1),
                                 usersLiked: firebase.firestore.FieldValue.arrayUnion(user.uid)
                             });
-                            setLikeColor('primary');
                         }
                     } else {
                         alert("You need to be logged to vote for a post");
                     }
-
                 });    
             } else {
                 // doc.data() will be undefined in this case
@@ -74,25 +66,20 @@ function AddLike(props) {
                                 usersDisLiked: firebase.firestore.FieldValue.arrayUnion(user.uid),
                                 usersLiked: firebase.firestore.FieldValue.arrayRemove(haveLiked)
                             });
-                            setDisLikeColor('secondary');
-                            setLikeColor('');
                         } else if (haveDisLiked) {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(1),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayRemove(haveDisLiked)
                             });
-                            setDisLikeColor('');
                         } else {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(-1),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayUnion(user.uid)
                             });
-                            setDisLikeColor('secondary');
                         }
                     } else {
                         alert("You need to be logged to vote for a post");
                     }
-
                 });    
             } else {
                 // doc.data() will be undefined in this case
@@ -108,9 +95,9 @@ function AddLike(props) {
 
     return (
         <div className="addLikeContainer">
-            <Button onClick={handleDislike} color={disLikeColor}>-</Button>
+            <Button onClick={handleDislike} color={props.disLikeColor}>-</Button>
             <span>{nbOfLike.current}</span>
-            <Button onClick={handleLike} color={likeColor}>+</Button>
+            <Button onClick={handleLike} color={props.likeColor}>+</Button>
         </div>
     )
 }
