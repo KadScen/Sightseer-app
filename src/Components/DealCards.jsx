@@ -11,8 +11,6 @@ function DealCards(props) {
     const db = firebase.firestore();
     const auth = firebase.auth();
     const [userData, setUserData] = useState(null);
-    const [likeColor, setLikeColor] = useState('');
-    const [disLikeColor, setDisLikeColor] = useState('');
     const userDataInfos = useRef(0);
     userDataInfos.current = userData;
 
@@ -29,26 +27,7 @@ function DealCards(props) {
         });
     })
 
-    // Liked or Dislaked color change
-    const likeRef = db.collection('Deals').doc(props.dealData.dealId);
-    likeRef.onSnapshot((doc) => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                const haveLiked = doc.data().usersLiked.find(element => element === user.uid);
-                const haveDisLiked = doc.data().usersDisLiked.find(element => element === user.uid);
-                if (haveLiked) {
-                    setLikeColor('primary');
-                    setDisLikeColor('');
-                } else if (haveDisLiked) {
-                    setDisLikeColor('secondary');
-                    setLikeColor('');
-                } else {
-                    setLikeColor('');
-                    setDisLikeColor('');
-                }
-            }
-        });   
-    });
+
 
     return (
         <div className="dealCardsComponent">
@@ -58,7 +37,7 @@ function DealCards(props) {
                     <p>By: {userDataInfos.current}</p>
                 </div>
                 <div className="interestInfos">
-                    <AddLike dealData={props.dealData} likeColor={likeColor} disLikeColor={disLikeColor}/>
+                    <AddLike dealData={props.dealData}/>
                     <MdSwapVert size="30px"/>
                 </div>
             </div>
@@ -75,7 +54,7 @@ function DealCards(props) {
                 }
             </div>
             <div className="cardFooter">
-                <Link className="buttonText myButton" to={{ pathname: "/card", state: props.dealData, dealCreator: userDataInfos.current}}>See the deal</Link>
+                <Link className="buttonText myButton" to={{ pathname: "/card", state: {state: props.dealData, dealCreator: userDataInfos.current}}}>See the deal</Link>
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ import AddLike from './AddLike';
 
 import "./Card.css";
 
-function Card() {
+function Card(props) {
   //Call and run signinup from Redux Actions
   const dispatch = useDispatch();
   dispatch(card());
@@ -22,10 +22,10 @@ function Card() {
             src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
             alt="userPic"
           />
-          <p>{location.dealCreator}</p>
+          <p>{props.location.state.dealCreator}</p>
         </div>
         <div className="interestInfos">
-          <AddLike dealData={location.state}/>
+          <AddLike dealData={location.state.state}/>
           <MdSwapVert size="30px" />
         </div>
       </div>
@@ -36,13 +36,13 @@ function Card() {
           </div>
           :  
           <div>
-            <Carousel imageData={location}/>
+            <Carousel imageData={location.state}/>
           </div>
         }
       </div>
       <div className="cardFooter">
         <div className="activityInfos">
-          <p className="dealTitle">{location.state.dealName}</p>
+          <p className="dealTitle">{props.location.state.state.dealName}</p>
           <p className="dealPrice">Price: ${location.state.dealPrice}</p>
           <p>Location: {location.state.dealLocation}</p>
         </div>

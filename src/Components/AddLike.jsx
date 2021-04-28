@@ -7,9 +7,32 @@ import 'firebase/auth';
 
 function AddLike(props) {
     const auth = firebase.auth();
+    const [likeColor, setLikeColor] = useState("default");
+    const [disLikeColor, setDisLikeColor] = useState("default");
     const [likeData, setLikeData] = useState(props.dealData.interestLevel);
     const nbOfLike = useRef(0);
     nbOfLike.current = likeData;
+
+    // Liked or Dislaked color change
+    const likeRef = db.collection('Deals').doc(props.dealData.dealId);
+    likeRef.onSnapshot((doc) => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const haveLiked = doc.data().usersLiked.find(element => element === user.uid);
+                const haveDisLiked = doc.data().usersDisLiked.find(element => element === user.uid);
+                if (haveLiked) {
+                    setLikeColor('primary');
+                    setDisLikeColor('default');
+                } else if (haveDisLiked) {
+                    setDisLikeColor('secondary');
+                    setLikeColor('default');
+                } else {
+                    setLikeColor('default');
+                    setDisLikeColor('default');
+                }
+            }
+        });   
+    });
 
     const handleLike = () => {
         const likeRef = db.collection('Deals').doc(props.dealData.dealId);
@@ -25,20 +48,25 @@ function AddLike(props) {
                                 usersLiked: firebase.firestore.FieldValue.arrayUnion(user.uid),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayRemove(haveDisLiked)
                             });
+                            setLikeColor('primary');
+                            setDisLikeColor('default');
                         } else if (haveLiked) {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(-1),
                                 usersLiked: firebase.firestore.FieldValue.arrayRemove(haveLiked)
                             });
+                            setLikeColor('default');
                         } else {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(1),
                                 usersLiked: firebase.firestore.FieldValue.arrayUnion(user.uid)
                             });
+                            setLikeColor('primary');
                         }
                     } else {
                         alert("You need to be logged to vote for a post");
                     }
+
                 });    
             } else {
                 // doc.data() will be undefined in this case
@@ -66,20 +94,25 @@ function AddLike(props) {
                                 usersDisLiked: firebase.firestore.FieldValue.arrayUnion(user.uid),
                                 usersLiked: firebase.firestore.FieldValue.arrayRemove(haveLiked)
                             });
+                            setDisLikeColor('secondary');
+                            setLikeColor('default');
                         } else if (haveDisLiked) {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(1),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayRemove(haveDisLiked)
                             });
+                            setDisLikeColor('default');
                         } else {
                             likeRef.update({
                                 interestLevel: firebase.firestore.FieldValue.increment(-1),
                                 usersDisLiked: firebase.firestore.FieldValue.arrayUnion(user.uid)
                             });
+                            setDisLikeColor('secondary');
                         }
                     } else {
                         alert("You need to be logged to vote for a post");
                     }
+
                 });    
             } else {
                 // doc.data() will be undefined in this case
@@ -95,9 +128,9 @@ function AddLike(props) {
 
     return (
         <div className="addLikeContainer">
-            <Button onClick={handleDislike} color={props.disLikeColor}>-</Button>
+            <Button onClick={handleDislike} color={disLikeColor}>-</Button>
             <span>{nbOfLike.current}</span>
-            <Button onClick={handleLike} color={props.likeColor}>+</Button>
+            <Button onClick={handleLike} color={likeColor}>+</Button>
         </div>
     )
 }
