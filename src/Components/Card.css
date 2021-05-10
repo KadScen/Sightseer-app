@@ -1,9 +1,8 @@
 .cardComponent {
   margin: 10px auto;
-  width: 95%;
+  width: 100%;
   background-color: white;
   height: auto;
-  border-radius: 5px;
   padding: 20px 30px;
 }
 
