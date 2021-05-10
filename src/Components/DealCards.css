@@ -91,16 +91,13 @@
 
 @media only screen and (max-width: 600px) {
   .dealCardsComponent {
-    width: 95%;
+    width: 100%;
     padding: 20px 5px;
     margin: 10px auto;
+    border-radius: 0px;
   }
 
   .dealCardsComponent .userInfos p {
     width: 125px;
-  }
-
-  .dealCardsComponent .interestInfos {
-    
   }
 }
