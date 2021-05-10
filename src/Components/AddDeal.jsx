@@ -61,7 +61,9 @@ export default function AddDeal() {
                         imageUrl: imageRef.current,
                         dateDealPosted: firebase.firestore.Timestamp.now(),
                         interestLevel: 0,
-                        dealId: id
+                        dealId: id,
+                        usersLiked: [0],
+                        usersDisLiked: [0]
                     })
                     .then(function() {
                         console.log("Document successfully written!");
@@ -84,7 +86,9 @@ export default function AddDeal() {
                         imageUrl: 'false',
                         dateDealPosted: firebase.firestore.Timestamp.now(),
                         interestLevel: 0,
-                        dealId: id
+                        dealId: id,
+                        usersLiked: [0],
+                        usersDisLiked: [0]
                     })
                     .then(function() {
                         alert('Deal added without image thanks!!');
