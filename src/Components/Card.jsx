@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { MdSwapVert } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { card } from "../Actions";
@@ -8,11 +8,15 @@ import AddLike from './AddLike';
 
 import "./Card.css";
 
-function Card(props) {
+function Card() {
   //Call and run signinup from Redux Actions
   const dispatch = useDispatch();
   dispatch(card());
   let location = useLocation();
+  const [dealTitle, setDealTitle] = useState(location.state.state.dealName);
+  const [dealPrice, setDealPrice] = useState(location.state.state.dealPrice);
+  const [dealLocation, setDealLocation] = useState(location.state.state.dealLocation);
+  const [dealDescription, setDealDescription] = useState(location.state.state.dealDescription);
 
   return (
     <div className="cardComponent">
@@ -22,7 +26,7 @@ function Card(props) {
             src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
             alt="userPic"
           />
-          <p>{props.location.state.dealCreator}</p>
+          <p>{location.state.dealCreator}</p>
         </div>
         <div className="interestInfos">
           <AddLike dealData={location.state.state}/>
@@ -30,7 +34,7 @@ function Card(props) {
         </div>
       </div>
       <div className="cardBody">
-        {location.state.imageUrl === 'false' ?
+        {location.state.state.imageUrl === 'false' ?
           <div className="noImage">
             <p>There is no image added to this deal...</p>
           </div>
@@ -42,13 +46,13 @@ function Card(props) {
       </div>
       <div className="cardFooter">
         <div className="activityInfos">
-          <p className="dealTitle">{props.location.state.state.dealName}</p>
-          <p className="dealPrice">Price: ${location.state.dealPrice}</p>
-          <p>Location: {location.state.dealLocation}</p>
+          <p className="dealTitle">{dealTitle}</p>
+          <p className="dealPrice">Price: ${dealPrice}</p>
+          <p>Location: {dealLocation}</p>
         </div>
         <div className="dealDescription">
           <p className="descriptionSubtitle">Desctiption of the deal: <br/></p>
-          <p>{location.state.dealDescription}</p>
+          <p>{dealDescription}</p>
         </div>
       </div>
     </div>

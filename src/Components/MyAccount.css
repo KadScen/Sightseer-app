@@ -1,0 +1,9 @@
+.myAccountComponent {
+    text-align: center;
+}
+
+.myAccountComponent img {
+    height: 200px;
+    border: 2px solid black;
+    border-radius: 50%;
+}

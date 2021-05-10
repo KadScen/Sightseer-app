@@ -7,6 +7,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Link } from "react-router-dom";
 import {useHistory} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import './DropMenu.css';
 
@@ -32,6 +33,7 @@ export default function SimpleMenu() {
 
   function handleLogout() {
     firebase.auth().signOut().then(() => {
+      Cookies.remove('id');
         // Sign-out successful.
         alert("Disconnected");
         history.push(location);

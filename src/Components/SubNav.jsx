@@ -8,7 +8,7 @@ function SubNav() {
       <nav>
         <div className="nav-wrapper">
           <div className="col s12">
-            <a href="/#" className="breadcrumb" style={{marginLeft: "20px"}}>
+            <a href="/" className="breadcrumb" style={{marginLeft: "20px"}}>
               Home
             </a>
             <a href="/#" className="breadcrumb">

@@ -6,6 +6,7 @@ import { isLogged } from "../Actions";
 import '../Config/firebaseConfig';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import Cookies from 'js-cookie';
 
 import "./SignInUp.css";
 
@@ -76,6 +77,9 @@ function SignInUp() {
             auth.signInWithEmailAndPassword(email, password)
             .then((user) => {
                 dispatch(isLogged());
+                auth.onAuthStateChanged(user => {
+                        Cookies.set('id', user.uid);
+                });
                 login.reset();
                 window.location.href = "/";
                 alert("User sucessfully signed in")
