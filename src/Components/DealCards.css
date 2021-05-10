@@ -95,4 +95,12 @@
     padding: 20px 5px;
     margin: 10px auto;
   }
+
+  .dealCardsComponent .userInfos p {
+    width: 125px;
+  }
+
+  .dealCardsComponent .interestInfos {
+    
+  }
 }
