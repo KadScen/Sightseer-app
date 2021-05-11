@@ -67,15 +67,16 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={handleClose}><Link to="/">Home</Link></MenuItem>
         {isLogged ?
           <div>
-              <MenuItem><Link to="/addDeal">Add a deal</Link></MenuItem>
-              <MenuItem><Link to="/myAccount">My account</Link></MenuItem>
+              <MenuItem onClick={handleClose}><Link to="/addDeal">Add a deal</Link></MenuItem>
+              <MenuItem onClick={handleClose}><Link to="/myAccount">My account</Link></MenuItem>
               <MenuItem id="logout" onClick={() => {handleClose(); handleLogout();}}>Logout</MenuItem>
           </div>
           :  
           <div>
-              <MenuItem><Link to="/signInUp">Login/Sign up</Link></MenuItem>
+              <MenuItem onClick={handleClose}><Link to="/signInUp">Login/Sign up</Link></MenuItem>
           </div>
         }
       </Menu>
