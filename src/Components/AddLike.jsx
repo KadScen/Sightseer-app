@@ -5,6 +5,9 @@ import firebase from 'firebase/app';
 import {db} from "../Config/firebaseConfig";
 import 'firebase/auth';
 
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+
 function AddLike(props) {
     const auth = firebase.auth();
     const [likeColor, setLikeColor] = useState("default");
@@ -128,9 +131,9 @@ function AddLike(props) {
 
     return (
         <div className="addLikeContainer">
-            <Button onClick={handleDislike} color={disLikeColor}>-</Button>
+            <Button onClick={handleDislike} color={disLikeColor}><ThumbDownIcon fontSize="small"/></Button>
             <span>{nbOfLike.current}</span>
-            <Button onClick={handleLike} color={likeColor}>+</Button>
+            <Button onClick={handleLike} color={likeColor}><ThumbUpIcon fontSize="small"/></Button>
         </div>
     )
 }

@@ -3,8 +3,13 @@ import "./MyAccount.css";
 import Cookies from 'js-cookie';
 import {db} from "../Config/firebaseConfig";
 import firebase from 'firebase/app';
+import { useDispatch } from "react-redux";
+import { myAccount } from "../Actions";
 
 export function MyAccount() {
+    //Call and run signinup from Redux Actions
+    const dispatch = useDispatch();
+    dispatch(myAccount());
     const [currentUserData, setCurrentUserData] = useState(0);
     const timeStamp = useRef(0);
     const auth = firebase.auth();

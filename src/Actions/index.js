@@ -22,3 +22,15 @@ export const imageInfos = infos => {
     payload: infos
   };
 };
+
+export const myAccount = () => {
+  return {
+    type: "MYACCOUNT",
+  };
+};
+
+export const addDeal = () => {
+  return {
+    type: "ADDDEAL",
+  };
+};

@@ -3,9 +3,13 @@ const subNavLocation = (state = "", action) => {
     case "HOME":
       return state;
     case "SIGNINUP":
-      return (state = "Login / SignUp");
+      return (state = "Signin / SignUp");
     case "CARD":
-      return (state = "Activity Name");
+      return (state = "Activity name");
+    case "MYACCOUNT":
+      return (state = "My account");
+    case "ADDDEAL":
+      return (state = "Add a deal");
     default:
       return state;
   }

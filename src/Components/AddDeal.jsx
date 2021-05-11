@@ -4,10 +4,11 @@ import {useHistory} from 'react-router-dom';
 import firebase from 'firebase/app';
 import {v4 as uuid} from 'uuid';
 import 'firebase/auth';
-
 import './AddDeal.css';
 import ImageUpload from './ImageUpload';
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addDeal } from "../Actions";
 
 //Init firebase DB
 const db = firebase.firestore();
@@ -21,6 +22,9 @@ const options = [
 ];
 
 export default function AddDeal() {
+    //Call and run signinup from Redux Actions
+    const dispatch = useDispatch();
+    dispatch(addDeal());
     const [selectedOption, setSelectedOption] = useState(null);
     const history = useHistory();
     const location = {
