@@ -55,6 +55,7 @@ function SignInUp() {
                     location: "to be defined"
                 })
                 .then(function() {
+                    Cookies.set('id', cred.user.uid);
                     console.log("Document successfully written!");
                     window.location.href = "/";
                 })

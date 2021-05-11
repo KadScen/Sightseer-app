@@ -2,10 +2,15 @@ import React, {useState, useRef, memo, useEffect} from 'react';
 import "./MyAccount.css";
 import Cookies from 'js-cookie';
 import {db} from "../Config/firebaseConfig";
+import firebase from 'firebase/app';
 
 export function MyAccount() {
     const [currentUserData, setCurrentUserData] = useState(0);
     const timeStamp = useRef(0);
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(user => {
+        Cookies.set('id', user.uid);
+    });
 
     //Fetch the data from fb only once thanks to useEffect and fetchData = async()
     useEffect(() => {
