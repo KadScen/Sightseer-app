@@ -1,9 +1,19 @@
-.myAccountComponent {
+.myAccountComponent .headerInfos {
     text-align: center;
 }
 
-.myAccountComponent img {
+.myAccountComponent .headerInfos img {
     height: 200px;
     border: 2px solid black;
     border-radius: 50%;
+}
+
+.myAccountComponent .lastPostSeparator {
+    background-color: white;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.myAccountComponent .lastPostSeparator p {
+    margin-left: 20px;
 }

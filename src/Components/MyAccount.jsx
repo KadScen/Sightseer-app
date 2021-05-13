@@ -5,6 +5,7 @@ import {db} from "../Config/firebaseConfig";
 import firebase from 'firebase/app';
 import { useDispatch } from "react-redux";
 import { myAccount } from "../Actions";
+import MainBody from './MainBody';
 
 export function MyAccount() {
     //Call and run signinup from Redux Actions
@@ -42,14 +43,21 @@ export function MyAccount() {
 
     return (
         <div className="myAccountComponent">
-            <img
-                src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
-                alt="userPic"
-            />
-            <p>Username: {currentUserData.name}</p>
-            <p>Email: {currentUserData.email}</p>
-            <p>Member since: {timeStamp.current}</p>
-            <p>Last posts: ...</p>
+            <div className="headerInfos">
+                <img
+                    src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
+                    alt="userPic"
+                />
+                <p>Username: {currentUserData.name}</p>
+                <p>Email: {currentUserData.email}</p>
+                <p>Member since: {timeStamp.current}</p>
+            </div>
+            <div className="lastPostSeparator">
+                <p>Last posts: ...</p>
+            </div>
+            <div className="listOwnDeals">
+                <MainBody getUserDealId={Cookies.get('id')}/>
+            </div>
         </div>
     )
 }

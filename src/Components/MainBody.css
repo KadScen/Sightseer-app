@@ -3,7 +3,15 @@
   margin: auto;
 }
 
+.mainBodyComponent .mainBodyCards {
+  margin-bottom: 30px;
+}
+
 .mainBodyComponent .loadMore {
+  width: 70%;
+}
+
+.mainBodyComponent .deleteButton {
   width: 70%;
 }
 
@@ -14,6 +22,10 @@
   }
 
   .mainBodyComponent .loadMore {
+    width: 100%;
+  }
+
+  .mainBodyComponent .deleteButton {
     width: 100%;
   }
 }
