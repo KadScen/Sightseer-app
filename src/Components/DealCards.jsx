@@ -4,12 +4,12 @@ import firebase from 'firebase/app';
 import { Link } from "react-router-dom";
 import AddLike from "./AddLike";
 import 'firebase/auth';
+import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 
 import "./DealCards.css";
 
 function DealCards(props) {
     const db = firebase.firestore();
-    const auth = firebase.auth();
     const [userData, setUserData] = useState(null);
     const userDataInfos = useRef(0);
     userDataInfos.current = userData;
@@ -36,10 +36,18 @@ function DealCards(props) {
                     <img src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg" alt="userPic"/>
                     <p>By: {userDataInfos.current}</p>
                 </div>
-                <div className="interestInfos">
-                    <AddLike dealData={props.dealData}/>
-                    <MdSwapVert size="30px"/>
-                </div>
+                {props.dealData.dealStatus === "pending" 
+                    ? 
+                    <div className="interestInfos">
+                        <HelpRoundedIcon color="primary"/>
+                        <p>This deal is waiting for a validation</p> 
+                    </div>
+                    : 
+                    <div className="interestInfos">
+                        <AddLike dealData={props.dealData}/>
+                        <MdSwapVert size="30px"/>
+                    </div>
+                }
             </div>
             <div className="cardBody">
                 <p className="dealTitle">{props.dealData.dealName}</p>

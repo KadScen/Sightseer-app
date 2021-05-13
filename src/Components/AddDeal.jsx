@@ -68,7 +68,8 @@ export default function AddDeal() {
                         dealId: id,
                         usersLiked: [0],
                         usersDisLiked: [0],
-                        archived: false
+                        archived: false,
+                        dealStatus: "pending"
                     })
                     .then(function() {
                         console.log("Document successfully written!");
@@ -94,7 +95,8 @@ export default function AddDeal() {
                         dealId: id,
                         usersLiked: [0],
                         usersDisLiked: [0],
-                        archived: false
+                        archived: false,
+                        dealStatus: "pending"
                     })
                     .then(function() {
                         alert('Deal added without image thanks!!');

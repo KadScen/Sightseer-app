@@ -8,6 +8,7 @@ import SignInUp from './Components/SignInUp';
 import Card from './Components/Card';
 import MyAccount from './Components/MyAccount';
 import AddDeal from './Components/AddDeal';
+import AdminPage from './Components/AdminPage';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/card" component={Card} />
         <Route path="/myAccount" component={MyAccount} />
         <Route path="/addDeal" component={AddDeal} />
+        <Route path="/adminPage" component={AdminPage} />
+
       </div>
     </Router>
   );

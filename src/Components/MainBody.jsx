@@ -15,7 +15,6 @@ class MainBody extends Component {
     }
 
     componentDidMount() {
-        const allDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("archived", "==", false);
         const queryDeals = (whichCollection) => {
             whichCollection.limit(5).get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -28,10 +27,17 @@ class MainBody extends Component {
                 });
             }); 
         }
-        if (this.props.getUserDealId) {
-            const userDeal = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealUserCreator", "==", this.props.getUserDealId).where("archived", "==", false);
-            queryDeals(userDeal);
+        // Case comming from My Account page
+        if (this.props.getUserDealId && this.props.userRole !== "ADMIN") {
+            const userDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealUserCreator", "==", this.props.getUserDealId).where("archived", "==", false);
+            queryDeals(userDeals);
+        // Case comming from Admin page
+        } else if (this.props.getUserDealId && this.props.userRole === "ADMIN") {
+            const pendingDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealStatus", "==", "pending");
+            queryDeals(pendingDeals);
+        // Case comming from Main page
         } else {
+        const allDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("archived", "==", false).where("dealStatus", "==", "validated");
             queryDeals(allDeals);
         }
         
@@ -41,7 +47,6 @@ class MainBody extends Component {
     }
 
     fetchMore = () => {
-        const allDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("archived", "==", false);
         const fetchMoreDeals = (whichCollection) => {
             whichCollection.startAfter(this.state.lastDoc).limit(5).get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -53,19 +58,27 @@ class MainBody extends Component {
                     });
                 });
             });
-            if (this.props.getUserDealId) {
-                const userDeal = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealUserCreator", "==", this.props.getUserDealId).where("archived", "==", false);
-                fetchMoreDeals(userDeal);
-            } else {
-                fetchMoreDeals(allDeals);
-            }
         }
+        // Case comming from My Account page
+        if (this.props.getUserDealId && this.props.userRole !== "ADMIN") {
+            const userDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealUserCreator", "==", this.props.getUserDealId).where("archived", "==", false);
+            fetchMoreDeals(userDeals);
+        // Case comming from Admin page
+        } else if (this.props.getUserDealId && this.props.userRole === "ADMIN") {
+            const pendingDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealStatus", "==", "pending");
+            fetchMoreDeals(pendingDeals);
+        // Case comming from Main page
+        } else {
+            const allDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("archived", "==", false).where("dealStatus", "==", "validated");
+            fetchMoreDeals(allDeals);
+        }
+        
     };
 
     handleDeleteDeal(item) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this imaginary file!",
+            text: "Once deleted, you will not be able to recover this Deal!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -90,6 +103,34 @@ class MainBody extends Component {
           });
     };
 
+    handleValidateDeal(item) {
+        swal({
+            title: "Are you sure?",
+            text: "If you approuve this Deal it will be shown to everybody!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                db.collection("Deals").doc(item.dealId).update({
+                    dealStatus: "validated"
+                })
+                .then(() => {
+                    console.log("Document successfully written!");
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                });
+                swal("Poof! The Deal has been validated!", {
+                    icon: "success",
+                });
+            } else {
+                swal("Ok, let's see later!");
+            }
+          });
+    };
+
     render() { 
         if (this.state.cards.length === 0) {
             return <h2>Loading...</h2>
@@ -98,10 +139,13 @@ class MainBody extends Component {
         return (
             <div className="mainBodyComponent">
                 {this.state.cards.map((item, index)=>{
-                    return <div className="mainBodyCards">
-                            <DealCards key={index} dealData={item} dealImageUrl={this.state.dealImageUrl[index]}/>
-                            {this.props.getUserDealId ? <Button className="deleteButton" variant="contained" onClick={() => this.handleDeleteDeal(item)} color="secondary">Delete this deal?</Button> : <span/>}
-                        </div>
+                    return  <div className="mainBodyCards">
+                                <DealCards key={index} dealData={item} dealImageUrl={this.state.dealImageUrl[index]}/>
+                                <div className="mainBodyCardsButtons">
+                                    {this.props.getUserDealId ? <Button key={index} className="deleteDealButton" variant="contained" onClick={() => this.handleDeleteDeal(item)} color="secondary">Delete this deal?</Button> : <span/>}
+                                    {this.props.getUserDealId && this.props.userRole === "ADMIN" ? <Button key={index} className="validateDealButton" variant="contained" onClick={() => this.handleValidateDeal(item)} color="primary">Approuve this deal?</Button> : <span/>}
+                                </div>
+                            </div>
                 })}
                 <button className="loadMore" onClick={this.fetchMore}>Load more...</button>
             </div>

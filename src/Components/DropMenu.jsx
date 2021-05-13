@@ -72,6 +72,7 @@ export default function SimpleMenu() {
           <div>
               <MenuItem onClick={handleClose}><Link to="/addDeal">Add a deal</Link></MenuItem>
               <MenuItem onClick={handleClose}><Link to="/myAccount">My account</Link></MenuItem>
+              <MenuItem onClick={handleClose}><Link to="/adminPage">Admin</Link></MenuItem>
               <MenuItem id="logout" onClick={() => {handleClose(); handleLogout();}}>Logout</MenuItem>
           </div>
           :  

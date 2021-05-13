@@ -56,7 +56,7 @@ export function MyAccount() {
                 <p>Last posts: ...</p>
             </div>
             <div className="listOwnDeals">
-                <MainBody getUserDealId={Cookies.get('id')}/>
+                {Cookies.get('id') ? <MainBody getUserDealId={Cookies.get('id')}/> : <p>Loading...</p>}
             </div>
         </div>
     )

@@ -52,7 +52,8 @@ function SignInUp() {
                     name: name,
                     email: email,
                     registerDate: firebase.firestore.Timestamp.now(),
-                    location: "to be defined"
+                    location: "to be defined",
+                    userRole: "BASIC"
                 })
                 .then(function() {
                     Cookies.set('id', cred.user.uid);
