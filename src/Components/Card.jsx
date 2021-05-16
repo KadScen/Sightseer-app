@@ -18,6 +18,14 @@ function Card() {
   const [dealLocation, setDealLocation] = useState(location.state.state.dealLocation);
   const [dealDescription, setDealDescription] = useState(location.state.state.dealDescription);
 
+  const renderPrice = () => {
+    if (dealPrice === 0) {
+      return "Free";
+    } else {
+      return dealPrice;
+    }
+  }
+
   return (
     <div className="cardComponent">
       <div className="cardHeader">
@@ -47,7 +55,7 @@ function Card() {
       <div className="cardFooter">
         <div className="activityInfos">
           <p className="dealTitle">{dealTitle}</p>
-          <p className="dealPrice">Price: ${dealPrice}</p>
+          <p className="dealPrice">Price: ${renderPrice()}</p>
           <p>Location: {dealLocation}</p>
         </div>
         <div className="dealDescription">

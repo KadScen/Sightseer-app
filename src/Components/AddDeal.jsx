@@ -61,7 +61,7 @@ export default function AddDeal() {
                         dealLocation: document.getElementById('dealLocation').value,
                         dealType: typeOfDeal.current.value,
                         dealDescription: document.getElementById('dealDescription').value,
-                        dealPrice: document.getElementById('dealPrice').value,
+                        dealPrice: Number(document.getElementById('dealPrice').value),
                         imageUrl: imageRef.current,
                         dateDealPosted: firebase.firestore.Timestamp.now(),
                         interestLevel: 0,
@@ -88,7 +88,7 @@ export default function AddDeal() {
                         dealLocation: document.getElementById('dealLocation').value,
                         dealType: typeOfDeal.current.value,
                         dealDescription: document.getElementById('dealDescription').value,
-                        dealPrice: document.getElementById('dealPrice').value,
+                        dealPrice: Number(document.getElementById('dealPrice').value),
                         imageUrl: 'false',
                         dateDealPosted: firebase.firestore.Timestamp.now(),
                         interestLevel: 0,
@@ -126,7 +126,7 @@ export default function AddDeal() {
                                 <input type="text" id="dealLocation" className="fadeIn second" name="dealLocation" placeholder="Location*" required />
                                 <Select defaultvalue={selectedOption} id="dealType" onChange={setSelectedOption} placeholder="Type...*" options={options} />
                                 <input type="textarea" id="dealDescription" className="fadeIn third" placeholder="Description" required />
-                                <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" min="0" max="99999" required />
+                                <input type="number" id="dealPrice" className="fadeIn third" placeholder="Price" min="0" max="99999" />
                                 <ImageUpload dealId={dealId}/>
                             </div>
                             <input type="submit" id="submitDeal" className="fadeIn fourth" value="Share your deal!!" />

@@ -27,7 +27,13 @@ function DealCards(props) {
         });
     })
 
-
+    const renderPrice = () => {
+        if (props.dealData.dealPrice === 0) {
+          return "Free";
+        } else {
+          return props.dealData.dealPrice;
+        }
+    }
 
     return (
         <div className="dealCardsComponent">
@@ -51,7 +57,7 @@ function DealCards(props) {
             </div>
             <div className="cardBody">
                 <p className="dealTitle">{props.dealData.dealName}</p>
-                <p className="dealPrice">${props.dealData.dealPrice}</p>
+                <p className="dealPrice">${renderPrice()}</p>
                 <p>Location: {props.dealData.dealLocation}</p>
                 {props.dealImageUrl ?
                     <img src={props.dealImageUrl} alt="dealPicture"/>

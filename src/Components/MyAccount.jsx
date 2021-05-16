@@ -53,7 +53,7 @@ export function MyAccount() {
                 <p>Member since: {timeStamp.current}</p>
             </div>
             <div className="lastPostSeparator">
-                <p>Last posts: ...</p>
+                <p>Your last posts: ...</p>
             </div>
             <div className="listOwnDeals">
                 {Cookies.get('id') ? <MainBody getUserDealId={Cookies.get('id')}/> : <p>Loading...</p>}
