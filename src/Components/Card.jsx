@@ -31,8 +31,8 @@ function Card() {
       <div className="cardHeader">
         <div className="userInfos">
           <img
-            src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
-            alt="userPic"
+            src={location.state.dealCreatorPicture ? location.state.dealCreatorPicture : "https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"}
+            alt={location.state.dealCreator}
           />
           <p>{location.state.dealCreator}</p>
         </div>

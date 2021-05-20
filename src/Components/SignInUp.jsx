@@ -7,8 +7,8 @@ import '../Config/firebaseConfig';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Cookies from 'js-cookie';
-
 import "./SignInUp.css";
+import FacebookLogin from 'react-facebook-login';
 
 function SignInUp() {
     //Call and run signinup from Redux Actions
@@ -17,6 +17,53 @@ function SignInUp() {
     const auth = firebase.auth();
     //Init firebase DB
     const db = firebase.firestore();
+
+    const handleSignup = (name, email, password, profilePictureUrl) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((cred) => {
+            // Add a new document in collection
+            db.collection("Users").doc(cred.user.uid).set({
+                name: name,
+                email: email,
+                registerDate: firebase.firestore.Timestamp.now(),
+                location: "to be defined",
+                userRole: "BASIC",
+                profilPicture: profilePictureUrl
+            })
+            .then(function() {
+                Cookies.set('id', cred.user.uid);
+                console.log("Document successfully written!");
+                window.location.href = "/";
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+            alert("User sucessfully signed up")
+        })
+        .catch((error) => {
+            //var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorMessage)
+        });
+    }
+
+    const handleLogin = (email, password) => {
+        auth.signInWithEmailAndPassword(email, password)
+        .then((user) => {
+            dispatch(isLogged());
+            auth.onAuthStateChanged(user => {
+                    Cookies.set('id', user.uid);
+            });
+            // login.reset();
+            window.location.href = "/";
+            alert("User sucessfully signed in")
+        })
+        .catch((error) => {
+            //var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorMessage);
+        });
+    }
 
     // Similaire à componentDidMount et componentDidUpdate :
     useEffect(() => {
@@ -39,62 +86,32 @@ function SignInUp() {
         const login = document.getElementById("login");
         const submitSignup = document.getElementById("submitSignup");
         const submitLogin = document.getElementById("submitLogin");
-  
+
         submitSignup.addEventListener("click", function(e) {
             e.preventDefault();
             let name = signup.name.value;
             let email = signup.email.value;
             let password = signup.password.value;
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((cred) => {
-                // Add a new document in collection
-                db.collection("Users").doc(cred.user.uid).set({
-                    name: name,
-                    email: email,
-                    registerDate: firebase.firestore.Timestamp.now(),
-                    location: "to be defined",
-                    userRole: "BASIC"
-                })
-                .then(function() {
-                    Cookies.set('id', cred.user.uid);
-                    console.log("Document successfully written!");
-                    window.location.href = "/";
-                })
-                .catch(function(error) {
-                    console.error("Error writing document: ", error);
-                });
-                alert("User sucessfully signed up")
-            })
-            .catch((error) => {
-                //var errorCode = error.code;
-                var errorMessage = error.message;
-                alert(errorMessage)
-            });
+            let profilePicture = "none"
+            handleSignup(name, email, password, profilePicture);
         });
 
         submitLogin.addEventListener("click", function(e) {
             e.preventDefault();
             let email = login.email.value;
             let password = login.password.value;
-            auth.signInWithEmailAndPassword(email, password)
-            .then((user) => {
-                dispatch(isLogged());
-                auth.onAuthStateChanged(user => {
-                        Cookies.set('id', user.uid);
-                });
-                login.reset();
-                window.location.href = "/";
-                alert("User sucessfully signed in")
-            })
-            .catch((error) => {
-                //var errorCode = error.code;
-                var errorMessage = error.message;
-                alert(errorMessage);
-            });
+            handleLogin(email, password);
         });
     });
 
-
+    const handleFacebookSignup = (response) => {
+        console.log(response);
+        handleSignup(response.name, response.email, response.id, response.picture.data.url)
+    }
+    const handleFacebookLogin = (response) => {
+        console.log(response);
+        handleLogin(response.email, response.id)
+    }
 
     return (
         <div className="signInUpComponent">
@@ -113,6 +130,13 @@ function SignInUp() {
                                 <input type="password" id="signup-password" className="fadeIn third" name="password" placeholder="password*" required />
                             </div>
                             <input type="submit" id="submitSignup" className="fadeIn fourth" value="Sign Up" />
+                            <p>Or </p>
+                            <FacebookLogin
+                                appId="785533185433155"
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                textButton="Signup with Facebook"
+                                callback={handleFacebookSignup} />
                         </form>
 
                         {/* <!-- Login Form --> */}
@@ -126,6 +150,12 @@ function SignInUp() {
                             <div id="formFooter">
                                 <a className="underlineHover" href="!#">Forgot Password?</a>
                             </div>
+                            <p>Or </p>
+                            <FacebookLogin
+                                appId="785533185433155"
+                                autoLoad={false}
+                                fields="name,email,picture" 
+                                callback={handleFacebookLogin}/>
                         </form>
 
                     </div>

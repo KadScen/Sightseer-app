@@ -45,8 +45,8 @@ export function MyAccount() {
         <div className="myAccountComponent">
             <div className="headerInfos">
                 <img
-                    src="https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
-                    alt="userPic"
+                    src={currentUserData.profilPicture ? currentUserData.profilPicture : "https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"}
+                    alt={currentUserData.name}
                 />
                 <p>Username: {currentUserData.name}</p>
                 <p>Email: {currentUserData.email}</p>
