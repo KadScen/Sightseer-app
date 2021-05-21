@@ -155,7 +155,8 @@ function SignInUp() {
                                 appId="785533185433155"
                                 autoLoad={false}
                                 fields="name,email,picture" 
-                                callback={handleFacebookLogin}/>
+                                callback={handleFacebookLogin}
+                                disableMobileRedirect={true}/>
                         </form>
 
                     </div>
