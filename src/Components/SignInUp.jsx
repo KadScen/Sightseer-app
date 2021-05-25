@@ -92,7 +92,7 @@ function SignInUp() {
             let name = signup.name.value;
             let email = signup.email.value;
             let password = signup.password.value;
-            let profilePicture = "none"
+            let profilePicture = "https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"
             handleSignup(name, email, password, profilePicture);
         });
 
