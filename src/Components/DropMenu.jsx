@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,6 +8,7 @@ import 'firebase/auth';
 import { Link } from "react-router-dom";
 import {useHistory} from 'react-router-dom';
 import Cookies from 'js-cookie';
+import {db} from "../Config/firebaseConfig";
 
 import './DropMenu.css';
 
@@ -16,6 +17,7 @@ export default function SimpleMenu() {
   // Déclare une nouvelle variable d'état, "isLogged". Comme {this.state}
   const [isLogged, setIsLogged] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const userData = useRef(0);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,13 +36,14 @@ export default function SimpleMenu() {
   function handleLogout() {
     firebase.auth().signOut().then(() => {
       Cookies.remove('id');
-        // Sign-out successful.
-        alert("Disconnected");
-        history.push(location);
-      }).catch((error) => {
-        // An error happened.
-      });
-    }
+      // Sign-out successful
+      alert("Disconnected");
+      history.push(location);
+    })
+    .catch((error) => {
+      // An error happened
+    });
+  }
 
     // Similaire à componentDidMount et componentDidUpdate :
     useEffect(() => {
@@ -51,7 +54,32 @@ export default function SimpleMenu() {
               setIsLogged(false);
           };
       });
-    });
+      const fetchData = async() => {
+        try {
+            const response = await db
+                .collection("Users")
+                .doc(Cookies.get('id'))
+                .get();
+            let data = { title: 'not found' };
+
+            if (response.exists) {
+                data = response.data();
+            }
+            userData.current = data;
+            console.log(userData.current);
+        } catch(err) {
+            console.error(err);
+        }
+      };
+      fetchData();
+    }, []);
+
+    //Conditional rendering for admin button
+    const adminButton = () => {
+      if (userData.current.userRole === "ADMIN") {
+        return <MenuItem onClick={handleClose}><Link to="/adminPage">Admin</Link></MenuItem>
+      }
+    }
 
   return (
     <div>
@@ -72,7 +100,7 @@ export default function SimpleMenu() {
           <div>
               <MenuItem onClick={handleClose}><Link to="/addDeal">Add a deal</Link></MenuItem>
               <MenuItem onClick={handleClose}><Link to="/myAccount">My account</Link></MenuItem>
-              <MenuItem onClick={handleClose}><Link to="/adminPage">Admin</Link></MenuItem>
+              {adminButton()}
               <MenuItem id="logout" onClick={() => {handleClose(); handleLogout();}}>Logout</MenuItem>
           </div>
           :  
