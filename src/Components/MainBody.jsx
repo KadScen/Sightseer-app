@@ -114,7 +114,8 @@ class MainBody extends Component {
           .then((willDelete) => {
             if (willDelete) {
                 db.collection("Deals").doc(item.dealId).update({
-                    dealStatus: "validated"
+                    dealStatus: "validated",
+                    validatedBy: this.props.getUserDealId
                 })
                 .then(() => {
                     console.log("Document successfully written!");
