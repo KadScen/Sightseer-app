@@ -22,7 +22,7 @@
 }
 
 .dealCardsComponent .cardHeader .userInfos img {
-  border: solid 1px cadetblue;
+  border: solid 1px lightgrey;
   border-radius: 50%;
   height: 50px;
   width: 50px;

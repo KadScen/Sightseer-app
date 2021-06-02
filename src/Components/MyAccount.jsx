@@ -6,6 +6,7 @@ import firebase from 'firebase/app';
 import { useDispatch } from "react-redux";
 import { myAccount } from "../Actions";
 import MainBody from './MainBody';
+import EditProfilPic from './EditProfilPic';
 
 export function MyAccount() {
     //Call and run signinup from Redux Actions
@@ -48,6 +49,9 @@ export function MyAccount() {
                     src={currentUserData.profilPicture ? currentUserData.profilPicture : "https://assets.dryicons.com/uploads/icon/svg/3349/black_business_user.svg"}
                     alt={currentUserData.name}
                 />
+                <div>
+                    <EditProfilPic/>
+                </div>
                 <p>Username: {currentUserData.name}</p>
                 <p>Email: {currentUserData.email}</p>
                 <p>Member since: {timeStamp.current}</p>

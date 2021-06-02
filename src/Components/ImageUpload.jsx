@@ -67,7 +67,7 @@ export default function ImageUpload(props) {
 
     return (
         <div className="imageUploadComponent">
-            <p>Image Upload Complonent here</p>
+            <p>Upload an image</p>
             <input type='file' accept='image/*' id="dealFile" onChange={readImages}/>
             {imageUrl 
                 ? imageUrl.map(({id,url}) => {

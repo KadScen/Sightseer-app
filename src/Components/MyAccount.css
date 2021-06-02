@@ -3,8 +3,8 @@
 }
 
 .myAccountComponent .headerInfos img {
-    height: 200px;
-    border: 2px solid black;
+    height: 100px;
+    border: 2px solid lightgrey;
     border-radius: 50%;
 }
 
