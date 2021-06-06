@@ -110,9 +110,9 @@ class MainBody extends Component {
             icon: "warning",
             buttons: true,
             dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
+        })
+        .then((willValidate) => {
+            if (willValidate) {
                 db.collection("Deals").doc(item.dealId).update({
                     dealStatus: "validated",
                     validatedBy: this.props.getUserDealId
@@ -125,11 +125,14 @@ class MainBody extends Component {
                 });
                 swal("Poof! The Deal has been validated!", {
                     icon: "success",
+                })
+                .then(() => {
+                    window.location.href = "/adminPage";
                 });
             } else {
                 swal("Ok, let's see later!");
             }
-          });
+        });
     };
 
     render() { 

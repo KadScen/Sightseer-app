@@ -136,7 +136,8 @@ function SignInUp() {
                                 autoLoad={false}
                                 fields="name,email,picture"
                                 textButton="Signup with Facebook"
-                                callback={handleFacebookSignup} />
+                                callback={handleFacebookSignup}
+                                disableMobileRedirect={true}/>
                         </form>
 
                         {/* <!-- Login Form --> */}
