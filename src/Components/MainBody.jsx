@@ -137,7 +137,7 @@ class MainBody extends Component {
 
     render() { 
         if (this.state.cards.length === 0) {
-            return <h2>Loading...</h2>
+            return <h2>There is no deal here</h2>
         }
 
         return (
