@@ -9,6 +9,8 @@ import ImageUpload from './ImageUpload';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addDeal } from "../Actions";
+import { Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 //Init firebase DB
 const db = firebase.firestore();
@@ -20,6 +22,8 @@ const options = [
     {value:'traveling', label:'Traveling'}, 
     {value:'other', label:'Other'}, 
 ];
+
+let snackMessage = '';
 
 export default function AddDeal() {
     //Call and run signinup from Redux Actions
@@ -42,6 +46,16 @@ export default function AddDeal() {
     const typeOfDeal = useRef(0);
     typeOfDeal.current = selectedOption;
 
+    //Snackbar stuffs
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const handleClose = () => {
+        setOpenSnackbar(false);
+        history.push(location); 
+    };
+
     useEffect(() => {
         const submitDeal = document.getElementById('submitDeal');
         const dealForm = document.getElementById('dealForm');
@@ -52,8 +66,8 @@ export default function AddDeal() {
             const file = dealFile.files[0];
             if (file !== undefined && dealForm.checkValidity()) {
                 e.preventDefault();
-                console.log("File uploaded");
-                alert('Deal added with image thanks!!');
+                snackMessage = 'Deal added with image thanks!!';
+                setOpenSnackbar(true);
                 auth.onAuthStateChanged(user => {
                     db.collection("Deals").doc(id).set({
                         dealUserCreator: user.uid,
@@ -71,16 +85,14 @@ export default function AddDeal() {
                         archived: false,
                         dealStatus: "pending"
                     })
-                    .then(function() {
-                        console.log("Document successfully written!");
-                        history.push(location);
-                    })
                     .catch(function(error) {
                         console.error("Error writing document: ", error);
                     });
                 });
             } else if (file === undefined && dealForm.checkValidity()) {
                 e.preventDefault();
+                snackMessage = 'Deal added without image thanks!!';
+                setOpenSnackbar(true);
                 auth.onAuthStateChanged(user => {
                     db.collection("Deals").doc(id).set({
                         dealUserCreator: user.uid,
@@ -97,10 +109,6 @@ export default function AddDeal() {
                         usersDisLiked: [0],
                         archived: false,
                         dealStatus: "pending"
-                    })
-                    .then(function() {
-                        alert('Deal added without image thanks!!');
-                        history.push(location);
                     })
                     .catch(function(error) {
                         console.error("Error writing document: ", error);
@@ -132,6 +140,11 @@ export default function AddDeal() {
                             <input type="submit" id="submitDeal" className="fadeIn fourth" value="Share your deal!!" />
                         </form>
                         
+                        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleClose}>
+                            <Alert onClose={handleClose} severity="success">
+                                {snackMessage}
+                            </Alert>
+                        </Snackbar>
                     </div>
                 </div>
             </div>

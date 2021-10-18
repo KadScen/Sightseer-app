@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import {db} from "../Config/firebaseConfig";
 import Cookies from 'js-cookie';
 import firebase from 'firebase';

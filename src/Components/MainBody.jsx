@@ -16,7 +16,7 @@ class MainBody extends Component {
 
     componentDidMount() {
         const queryDeals = (whichCollection) => {
-            whichCollection.limit(5).get().then((querySnapshot) => {
+            whichCollection.limit(15).get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.setState({
                         deal: doc.data(),
@@ -48,7 +48,7 @@ class MainBody extends Component {
 
     fetchMore = () => {
         const fetchMoreDeals = (whichCollection) => {
-            whichCollection.startAfter(this.state.lastDoc).limit(5).get().then((querySnapshot) => {
+            whichCollection.startAfter(this.state.lastDoc).limit(10).get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     this.setState({
                         deal: doc.data(),
@@ -65,7 +65,7 @@ class MainBody extends Component {
             fetchMoreDeals(userDeals);
         // Case comming from Admin page
         } else if (this.props.getUserDealId && this.props.userRole === "ADMIN") {
-            const pendingDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealStatus", "==", "pending");
+            const pendingDeals = db.collection("Deals").orderBy("dateDealPosted", "desc").where("dealStatus", "==", "pending").where("archived", "==", false);
             fetchMoreDeals(pendingDeals);
         // Case comming from Main page
         } else {
@@ -86,16 +86,18 @@ class MainBody extends Component {
           .then((willDelete) => {
             if (willDelete) {
                 db.collection("Deals").doc(item.dealId).update({
-                    archived: true
-                })
-                .then(() => {
-                    console.log("Document successfully written!");
+                    archived: true,
+                    dealStatus: "archived"
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
                 });
                 swal("Poof! Your Deal has been deleted!", {
                     icon: "success",
+                })
+                .then(() => {
+                    console.log("Document successfully written!");
+                    window.location.href = "/adminPage";
                 });
             } else {
                 swal("Ok, your Deal is safe!");
@@ -117,9 +119,6 @@ class MainBody extends Component {
                     dealStatus: "validated",
                     validatedBy: this.props.getUserDealId
                 })
-                .then(() => {
-                    console.log("Document successfully written!");
-                })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
                 });
@@ -127,6 +126,7 @@ class MainBody extends Component {
                     icon: "success",
                 })
                 .then(() => {
+                    console.log("Document successfully written!");
                     window.location.href = "/adminPage";
                 });
             } else {
@@ -137,17 +137,17 @@ class MainBody extends Component {
 
     render() { 
         if (this.state.cards.length === 0) {
-            return <h2>There is no deal here</h2>
+            return <h2>Loading...</h2>
         }
 
         return (
             <div className="mainBodyComponent">
                 {this.state.cards.map((item, index)=>{
-                    return  <div className="mainBodyCards">
-                                <DealCards key={index} dealData={item} dealImageUrl={this.state.dealImageUrl[index]}/>
+                    return  <div key={index} className="mainBodyCards">
+                                <DealCards dealData={item} dealImageUrl={this.state.dealImageUrl[index]}/>
                                 <div className="mainBodyCardsButtons">
-                                    {this.props.getUserDealId ? <Button key={index} className="deleteDealButton" variant="contained" onClick={() => this.handleDeleteDeal(item)} color="secondary">Delete this deal?</Button> : <span/>}
-                                    {this.props.getUserDealId && this.props.userRole === "ADMIN" ? <Button key={index} className="validateDealButton" variant="contained" onClick={() => this.handleValidateDeal(item)} color="primary">Approuve this deal?</Button> : <span/>}
+                                    {this.props.getUserDealId ? <Button className="deleteDealButton" variant="contained" onClick={() => this.handleDeleteDeal(item)} color="secondary">Delete this deal?</Button> : <span/>}
+                                    {this.props.getUserDealId && this.props.userRole === "ADMIN" ? <Button className="validateDealButton" variant="contained" onClick={() => this.handleValidateDeal(item)} color="primary">Approuve this deal?</Button> : <span/>}
                                 </div>
                             </div>
                 })}

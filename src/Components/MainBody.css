@@ -19,7 +19,7 @@
   width: 35%;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 950px) {
   .mainBodyComponent {
     width: 100%;
     margin: 0;

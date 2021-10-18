@@ -8,7 +8,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import Cookies from 'js-cookie';
 import "./SignInUp.css";
-import FacebookLogin from 'react-facebook-login';
 
 function SignInUp() {
     //Call and run signinup from Redux Actions
@@ -104,15 +103,6 @@ function SignInUp() {
         });
     });
 
-    const handleFacebookSignup = (response) => {
-        console.log(response);
-        handleSignup(response.name, response.email, response.id, response.picture.data.url)
-    }
-    const handleFacebookLogin = (response) => {
-        console.log(response);
-        handleLogin(response.email, response.id)
-    }
-
     return (
         <div className="signInUpComponent">
             <div className="loginDiv">
@@ -130,14 +120,6 @@ function SignInUp() {
                                 <input type="password" id="signup-password" className="fadeIn third" name="password" placeholder="password*" required />
                             </div>
                             <input type="submit" id="submitSignup" className="fadeIn fourth" value="Sign Up" />
-                            <p>Or </p>
-                            <FacebookLogin
-                                appId="785533185433155"
-                                autoLoad={false}
-                                fields="name,email,picture"
-                                textButton="Signup with Facebook"
-                                callback={handleFacebookSignup}
-                                disableMobileRedirect={true}/>
                         </form>
 
                         {/* <!-- Login Form --> */}
@@ -151,13 +133,6 @@ function SignInUp() {
                             <div id="formFooter">
                                 <a className="underlineHover" href="!#">Forgot Password?</a>
                             </div>
-                            <p>Or </p>
-                            <FacebookLogin
-                                appId="785533185433155"
-                                autoLoad={false}
-                                fields="name,email,picture" 
-                                callback={handleFacebookLogin}
-                                disableMobileRedirect={true}/>
                         </form>
 
                     </div>
