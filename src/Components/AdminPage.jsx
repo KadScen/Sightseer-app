@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Cookies from 'js-cookie';
 import MainBody from './MainBody';
 import {db} from "../Config/firebaseConfig";
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 
 export function AdminPage() {
     const auth = firebase.auth();

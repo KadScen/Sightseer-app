@@ -1,7 +1,7 @@
 import React from 'react';
 import {db} from "../Config/firebaseConfig";
 import Cookies from 'js-cookie';
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
 
 export function EditProfilPic () {
     const dealFile = document.getElementById('dealFile');

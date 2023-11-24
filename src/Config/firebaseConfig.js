@@ -1,7 +1,7 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/storage';
-import "firebase/performance";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
+// import "firebase/compat/performance";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
@@ -18,6 +18,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
-export const perf = firebase.performance();
+// export const perf = firebase.performance();
 //Init firebase DB
 export const db = firebase.firestore();

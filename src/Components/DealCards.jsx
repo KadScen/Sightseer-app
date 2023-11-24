@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { MdSwapVert } from 'react-icons/md';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { Link } from "react-router-dom";
 import AddLike from "./AddLike";
 import 'firebase/auth';

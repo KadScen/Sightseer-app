@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import { Button } from '@material-ui/core';
 import "./AddLike.css";
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import {db} from "../Config/firebaseConfig";
 import 'firebase/auth';
 

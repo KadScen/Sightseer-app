@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import {useHistory} from 'react-router-dom';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import {v4 as uuid} from 'uuid';
-import 'firebase/auth';
+import 'firebase/compat/auth';
 import './AddDeal.css';
 import ImageUpload from './ImageUpload';
 import { useSelector } from "react-redux";

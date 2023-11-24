@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
 import {v4 as uuid} from 'uuid';
 import { useDispatch } from "react-redux";
 import { imageInfos } from "../Actions";

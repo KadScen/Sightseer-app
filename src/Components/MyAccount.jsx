@@ -2,7 +2,7 @@ import React, {useState, useRef, memo, useEffect} from 'react';
 import "./MyAccount.css";
 import Cookies from 'js-cookie';
 import {db} from "../Config/firebaseConfig";
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { useDispatch } from "react-redux";
 import { myAccount } from "../Actions";
 import MainBody from './MainBody';
